@@ -33,6 +33,11 @@
 
 # Environment files
 /backend/*.env
+/frontend/*.env
+/database/*.env
+
+# Database files
+/database/postgres_data
 
 # OS generated files
 .DS_Store
