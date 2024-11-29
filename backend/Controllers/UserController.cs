@@ -1,23 +1,29 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
-namespace backend.Controllers
+
+namespace backend
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserController : ControllerBase
-    {
-        // A sample in-memory list of items
-        private static readonly List<string> Items = new List<string>
-        {
-            "Item1", "Item2", "Item3"
-        };
 
-        // GET: api/items
-        [HttpGet]
-        public IActionResult GetUser()
-        {
-            return Ok(Items); // Return a 200 OK response with the items
-        }
+  [Route("api/[controller]")]
+  [ApiController]
+  public class UserController : ControllerBase
+  {
+
+
+    [HttpPost("signup")]
+    public async Task<IActionResult> Signup(SignupRequest request)
+    {
     }
+
+    private string GenerateJwtToken(User user)
+    {
+    }
+
+  }
 }
