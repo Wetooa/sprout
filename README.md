@@ -120,7 +120,7 @@ npm run dev
 
 ```bash
 cd backend
-dotnet run
+dotnet watch run
 ```
 
 ---
@@ -128,6 +128,8 @@ dotnet run
 ## Contributing
 
 We welcome contributions! Please fork the repository, create a new branch, and submit a pull request. Ensure code is well-documented and tested.
+
+> ⚠️ **Warning:** Backend and Frontend code might require .env files to run - please contact the Project Manager for more information.
 
 ### Branch Naming Conventions
 
