@@ -59,7 +59,9 @@ function Login() {
                 )}
               />
 
-              <Button type="submit">Submit</Button>
+              <Button className="w-full" type="submit">
+                Sign in
+              </Button>
             </form>
           </Form>
 
