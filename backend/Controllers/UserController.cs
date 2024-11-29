@@ -15,15 +15,5 @@ namespace backend
   public class UserController : ControllerBase
   {
 
-
-    [HttpPost("signup")]
-    public async Task<IActionResult> Signup(SignupRequest request)
-    {
-    }
-
-    private string GenerateJwtToken(User user)
-    {
-    }
-
   }
 }
