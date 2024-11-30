@@ -18,42 +18,53 @@ import Image from "next/image";
 import SproutHeader from "../sprout-header";
 import AsideFooter from "../aside-footer";
 
+import axios from "axios";
+
 const formSchema = z
   .object({
-    firstname: z.string().email(),
-    lastname: z.string().email(),
+    firstname: z.string(),
+    lastname: z.string(),
     email: z.string().email(),
     password: z.string(),
     confirmPassword: z.string(),
   })
-  .refine((data) => data.password == data.confirmPassword);
+  .refine((data) => data.password == data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 function Register() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      firstname: "",
+      lastname: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const data = await axios.post(
+      "http://localhost:5105/api/Auth/register",
+      values,
+    );
+    console.log(data);
   }
 
   return (
     <div className="w-full h-full flex gap-10 p-10 bg-[url('/bg/sign-in.png')] bg-cover bg-no-repeat">
-      <SproutHeader />
-
       <aside className="bg-primary/90 text-secondary backdrop-blur flex-[5] p-10 rounded-2xl flex flex-col">
+        <SproutHeader />
         <div className="flex-1 flex flex-col justify-center gap-4">
           <h3 className="font-bold text-5xl">
-            Enhance Your Agriculture with Innovative Solutions
+            Join Sprout and Transform Your Agricultural Experience
           </h3>
           <p>
-            Don’t have an account yet? Sign up now to access innovative
-            solutions that enhance productivity, resilience, and sustainability
-            in Philippine agriculture.
+            Already have an account? Sign in now to continue accessing the tools
+            and insights that drive productivity and sustainability in
+            Philippine agriculture.
           </p>
           <Button className="bg-green-500 w-fit font-bold text-2xl p-8 rounded-2xl">
             Sign up
@@ -115,7 +126,6 @@ function Register() {
                     <FormControl>
                       <IconInput
                         icon={<MailIcon />}
-                        className="border-2 border-primary"
                         placeholder="Email address"
                         {...field}
                       />
@@ -133,7 +143,7 @@ function Register() {
                     <FormControl>
                       <IconInput
                         icon={<LockIcon />}
-                        className="border-2 border-primary"
+                        type="password"
                         placeholder="Password"
                         {...field}
                       />
@@ -145,14 +155,14 @@ function Register() {
 
               <FormField
                 control={form.control}
-                name="password"
+                name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <IconInput
                         icon={<LockIcon />}
-                        className="border-2 border-primary"
-                        placeholder="Password"
+                        type="password"
+                        placeholder="Confirm Password"
                         {...field}
                       />
                     </FormControl>

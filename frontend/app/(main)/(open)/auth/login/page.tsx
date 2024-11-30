@@ -52,7 +52,6 @@ function Login() {
                     <FormControl>
                       <IconInput
                         icon={<MailIcon />}
-                        className="border-2 border-primary"
                         placeholder="Email address"
                         {...field}
                       />
@@ -70,7 +69,6 @@ function Login() {
                     <FormControl>
                       <IconInput
                         icon={<LockIcon />}
-                        className="border-2 border-primary"
                         placeholder="Password"
                         {...field}
                       />
