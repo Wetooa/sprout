@@ -3,5 +3,5 @@ export default function OpenLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="h-screen w-screen">{children}</div>;
+  return <div className="w-full h-full">{children}</div>;
 }
