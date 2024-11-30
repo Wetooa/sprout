@@ -46,7 +46,7 @@ namespace backend
         {
             var user = _context.User.SingleOrDefault(u => u.Email == model.Email);
 
-            if (user != null && user.Password != HashPassword(model.Password))
+            if (user != null)
             {
                 return Unauthorized("User with email already exists.");
             }
