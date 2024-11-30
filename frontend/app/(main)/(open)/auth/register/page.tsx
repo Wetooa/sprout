@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { LockIcon, MailIcon } from "lucide-react";
 import Image from "next/image";
-import SproutHeader from "../sprout-header";
+import SproutHeader from "@/components/sprout-header";
 import AsideFooter from "../aside-footer";
 
 import axios from "axios";
@@ -54,7 +54,7 @@ function Register() {
   }
 
   return (
-    <div className="w-full h-full flex gap-10 p-10 bg-[url('/bg/sign-in.png')] bg-cover bg-no-repeat">
+    <div className="w-full h-full flex gap-10 bg-[url('/bg/sign-up.png')] bg-cover bg-no-repeat">
       <aside className="bg-primary/90 text-secondary backdrop-blur flex-[5] p-10 rounded-2xl flex flex-col">
         <SproutHeader />
         <div className="flex-1 flex flex-col justify-center gap-4">

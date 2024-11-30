@@ -16,7 +16,7 @@ import {
 import { LockIcon, MailIcon } from "lucide-react";
 import Image from "next/image";
 import AsideFooter from "../aside-footer";
-import SproutHeader from "../sprout-header";
+import SproutHeader from "@/components/sprout-header";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -37,7 +37,7 @@ function Login() {
   }
 
   return (
-    <div className="w-full h-full flex gap-10 p-10 bg-[url('/bg/sign-in.png')] bg-cover bg-no-repeat">
+    <div className="w-full h-full flex gap-10 bg-[url('/bg/sign-in.png')] bg-cover bg-no-repeat">
       <section className="w-full h-full flex items-center justify-center border-4 border-white rounded-2xl flex-[6] p-[10%]">
         <div className="w-full my-auto bg-white p-12 rounded-2xl bg-white/80 backdrop-blur max-w-4xl flex flex-col space-y-4">
           <h2 className="font-bold text-center text-3xl">Sign in to Sprout</h2>
