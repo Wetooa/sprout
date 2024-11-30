@@ -26,7 +26,7 @@ function Navbar() {
   }
 
   return (
-    <nav className="static top-0 bg-primary rounded-2xl p-4 flex justify-between w-full items-center">
+    <nav className="bg-primary rounded-2xl p-4 flex justify-between w-full items-center">
       <SproutHeader className="text-white uppercase" />
       <div className="space-x-2 text-white">
         {links.map(([name, href, page]) => {

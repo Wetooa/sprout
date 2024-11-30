@@ -108,7 +108,7 @@ function Login() {
             <Button className="flex-1" variant="secondary">
               <Image
                 src={"/icons/google-icon.svg"}
-                alt="microsoft"
+                alt="google"
                 width={30}
                 height={30}
                 className="w-5 aspect-square"
