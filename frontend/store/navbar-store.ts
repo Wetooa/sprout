@@ -1,13 +1,12 @@
 import { create } from "zustand";
-
-type Page = "home" | "about" | "contact" | "services";
+import { Page } from "@/types/page";
 
 type NavStore = {
-  page: Page;
-  switch: (select: Page) => void;
+  selectedPage: Page;
+  switchPage: (select: Page) => void;
 };
 
 export const useNavStore = create<NavStore>((set) => ({
-  page: "home",
-  switch: (select: Page) => set(() => ({ page: select })),
+  selectedPage: "home",
+  switchPage: (select: Page) => set(() => ({ selectedPage: select })),
 }));
