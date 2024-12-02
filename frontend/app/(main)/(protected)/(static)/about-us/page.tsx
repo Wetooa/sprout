@@ -1,6 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import Navbar from "../../navbar";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -89,8 +90,12 @@ const companyNarrative: CompanyNarrativeProps[] = [
 
 function AboutUs() {
   return (
-    <div className="w-full h-full bg-[url('/bg/sign-in.png')] bg-cover bg-no-repeat ">
-      <div className="flex flex-col gap-4 max-w-6xl p-[10%]">
+    <div className="w-full h-full relative bg-[url('/bg/sign-in.png')] bg-cover overflow-y-scroll bg-no-repeat">
+      <div className="z-40 w-full p-4 top-0 fixed">
+        <Navbar />
+      </div>
+
+      <div className="z-0 flex pt-32 flex-col gap-4 max-w-[1200px] p-12 mx-auto">
         <section className=" bg-white/60 backdrop-blur p-8 rounded-2xl text-center space-y-4 h-fit">
           <h2 className="text-5xl text-primary font-bold">Our Company</h2>
           {companyNarrative.map((narrative) => {
@@ -136,7 +141,7 @@ interface MemberContainerProps {
 }
 
 function MemberContainer(props: MemberContainerProps) {
-  const { name, role, content, image, alt, socials } = props;
+  const { name, role, content, image, alt } = props;
 
   return (
     <div className="space-y-4 bg-white/80 p-8 rounded-2xl shadow-black">
@@ -144,8 +149,8 @@ function MemberContainer(props: MemberContainerProps) {
         className="w-full rounded-full aspect-square border-4 border-primary"
         src={`/members/${image}`}
         alt={alt}
-        width={100}
-        height={100}
+        width={300}
+        height={300}
       />
 
       <h3 className="font-bold text-black">{name}</h3>

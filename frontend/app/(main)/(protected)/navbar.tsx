@@ -1,49 +1,56 @@
 "use client";
 
 import SproutHeader from "@/components/sprout-header";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { useNavStore } from "@/store/navbar-store";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import React from "react";
-import { Page } from "@/types/page";
 
 function Navbar() {
-  const { selectedPage, switchPage } = useNavStore();
-
-  const links: [string, string, Page][] = [
-    ["Home", "/", "home"],
-    ["Map", "/map", "map"],
-    ["Services", "/services", "services"],
-    ["Pricing", "/pricing", "pricing"],
-    ["About us", "/about-us", "about-us"],
-  ];
-
   const router = useRouter();
+  const selectedPage = usePathname();
 
-  function onClickHandler(href: string, page: Page) {
-    switchPage(page);
-    router.push(href);
-  }
+  const links: [string, string][] = [
+    ["Home", "/"],
+    ["Map", "/map"],
+    ["Services", "/services"],
+    ["Pricing", "/pricing"],
+    ["About us", "/about-us"],
+  ];
 
   return (
     <nav className="bg-primary rounded-2xl p-4 flex justify-between w-full items-center">
-      <SproutHeader color="white" className="text-white uppercase" />
+      <SproutHeader
+        color="white"
+        className="text-white uppercase cursor-pointer"
+        onClick={() => {
+          router.push("/");
+        }}
+      />
+
       <div className="space-x-2 text-white">
-        {links.map(([name, href, page]) => {
+        {links.map(([name, href]) => {
           return (
             <Button
               key={name}
-              onClick={() => onClickHandler(href, page)}
-              variant={page === selectedPage ? "secondary" : "ghost"}
+              onClick={() => router.push(href)}
+              variant={href === selectedPage ? "secondary" : "ghost"}
             >
               {name}
             </Button>
           );
         })}
       </div>
-      <div>
-        <Button className="">Logout</Button>
-        <Button className="">Simon</Button>
+      <div className="rounded-lg overflow-hidden flex items-center border-2 border-green-500 h-10">
+        <button className="text-white py-2 px-6 bg-green-500">Log out</button>
+        <div className="relative h-full aspect-square justify-center flex items-center">
+          <Image
+            src={"/members/simon.jpg"}
+            alt="simon"
+            layout="fill"
+            objectFit="contain"
+          />
+        </div>
       </div>
     </nav>
   );
