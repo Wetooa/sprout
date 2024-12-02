@@ -7,7 +7,9 @@ export const metadata: Metadata = {
 };
 
 function AboutUs() {
-  return <div>AboutUs</div>;
+  return (
+    <div className="w-full h-full flex gap-10 bg-[url('/bg/sign-in.png')] bg-cover bg-no-repeat"></div>
+  );
 }
 
 export default AboutUs;
