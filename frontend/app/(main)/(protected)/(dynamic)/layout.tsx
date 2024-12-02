@@ -1,4 +1,4 @@
-import Navbar from "./navbar";
+import Navbar from "../navbar";
 
 export default function ProtectedLayout({
   children,
