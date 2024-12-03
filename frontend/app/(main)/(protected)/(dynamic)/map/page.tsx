@@ -34,7 +34,6 @@ function MapPage() {
     width: "100%",
   };
 
-  // Do the process after the component is mounted
   useEffect(() => {
     const map = new Map({
       container: mapIdDiv,
@@ -43,15 +42,10 @@ function MapPage() {
       style: "https://demotiles.maplibre.org/style.json",
     });
 
-    // When map is loaded fetch the tile and add it to he map
     map.on("load", async () => {
-      // Fetch to folder api/ee
       const res = await fetch("/api/ee");
-
-      // Get the body of the response
       const { urlFormat, geojson, message } = await res.json();
 
-      // If the process is error then show the error message
       if (!res.ok) {
         throw new Error(message);
       }
@@ -81,7 +75,7 @@ function MapPage() {
 
   return (
     <div className="relative w-full h-full flex flex-col rounded-2xl justify-center overflow-hidden">
-      <div className="z-0 absolute top-0" id={mapIdDiv} style={mapStyle}></div>;
+      <div className="z-0" id={mapIdDiv} style={mapStyle}></div>;
       <aside className="z-10 absolute top-0 left-0 p-4 space-y-6 w-1/4">
         <div className="rounded-lg overflow-hidden w-full">
           <div className="bg-white flex p-2">
