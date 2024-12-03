@@ -8,7 +8,10 @@ import {
   PlusIcon,
   SunIcon,
 } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
+import { bbox } from "@turf/turf";
+import { Map } from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
 
 const dummyWeatherData: WeatherAnalysisWidgetItemProps[] = [
   { time: "12 AM", weather: 32 },
@@ -23,10 +26,63 @@ const dummyWeatherData: WeatherAnalysisWidgetItemProps[] = [
   { time: "9 AM", weather: 22 },
 ];
 
-function Map() {
+function MapPage() {
+  const mapIdDiv = "map";
+  const eeLayerId = "ee-layer";
+  const mapStyle = {
+    height: "100%",
+    width: "100%",
+  };
+
+  // Do the process after the component is mounted
+  useEffect(() => {
+    const map = new Map({
+      container: mapIdDiv,
+      zoom: 4,
+      center: [117, 0],
+      style: "https://demotiles.maplibre.org/style.json",
+    });
+
+    // When map is loaded fetch the tile and add it to he map
+    map.on("load", async () => {
+      // Fetch to folder api/ee
+      const res = await fetch("/api/ee");
+
+      // Get the body of the response
+      const { urlFormat, geojson, message } = await res.json();
+
+      // If the process is error then show the error message
+      if (!res.ok) {
+        throw new Error(message);
+      }
+
+      // If it is good then add the layer url to the map
+      map.addSource(eeLayerId, {
+        type: "raster",
+        tiles: [urlFormat],
+        tileSize: 256,
+      });
+
+      // After the source is added then add it as map layer
+      map.addLayer({
+        type: "raster",
+        source: eeLayerId,
+        id: eeLayerId,
+        minzoom: 0,
+        maxzoom: 20,
+      });
+
+      // Then zoom it to the map layer
+      // Change geojson to bbox
+      const bounds = bbox(geojson);
+      map.fitBounds(bounds);
+    });
+  }, []); // Make the dependecies to [] so that it is only loaded once
+
   return (
-    <div className="relative bg-[url('/bg/main.svg')] bg-cover bg-no-repeat overflow-y-scroll w-full h-full p-16 flex flex-col justify-center">
-      <aside className="absolute top-0 left-0 p-4 space-y-6 w-1/4">
+    <div className="relative w-full h-full flex flex-col rounded-2xl justify-center overflow-hidden">
+      <div className="z-0 absolute top-0" id={mapIdDiv} style={mapStyle}></div>;
+      <aside className="z-10 absolute top-0 left-0 p-4 space-y-6 w-1/4">
         <div className="rounded-lg overflow-hidden w-full">
           <div className="bg-white flex p-2">
             Province |
@@ -100,4 +156,4 @@ function WeatherAnalysisWidgetItem({
   );
 }
 
-export default Map;
+export default MapPage;
