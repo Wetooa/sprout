@@ -1,5 +1,7 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function Home() {
@@ -23,13 +25,18 @@ function Home() {
         </p>
 
         <div className="font-bold space-x-2">
-          <Button className="p-6 rounded-lg">Explore Map</Button>
-          <Button className="p-6 rounded-lg" variant={"ghost"}>
-            Know More
+          <Button asChild className="p-6 rounded-lg">
+            <Link href="/map">Explore Map</Link>
+          </Button>
+
+          <Button asChild className="p-6 rounded-lg" variant={"link"}>
+            <Link href="/about-us">Know More</Link>
           </Button>
         </div>
 
-        <p>*Get 30-days free trial.</p>
+        <Button asChild className="w-fit text-black" variant={"link"}>
+          <Link href="/pricing">*Get 30-days free trial.</Link>
+        </Button>
       </div>
     </div>
   );
