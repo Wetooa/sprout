@@ -10,5 +10,9 @@ namespace backend
         public required string Email { get; set; }
 
         public required string Password { get; set; }
+
+        public required string SubscriptionTier {get; set;}
+
+        public required DateTime CreatedAt {get; set;}
     }
 }

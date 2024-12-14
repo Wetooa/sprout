@@ -34,7 +34,6 @@ namespace backend
         private readonly AppDbContext _context;
         private readonly IConfiguration _iconfiguration;
 
-
         public AuthController(AppDbContext context, IConfiguration configuration)
         {
             _context = context;
@@ -57,7 +56,9 @@ namespace backend
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                Password = HashPassword(model.Password)
+                Password = AuthUtils.HashPassword(model.Password),
+                SubscriptionTier = "Free", // FIX: This should be changed later
+                CreatedAt = DateTime.UtcNow,
             };
 
             _context.User.Add(newUser);
@@ -71,29 +72,20 @@ namespace backend
         {
             var user = _context.User.SingleOrDefault(u => u.Email == model.Email);
 
-            if (user == null || user.Password != HashPassword(model.Password))
+            if (user == null || user.Password != AuthUtils.HashPassword(model.Password))
             {
                 return Unauthorized("Invalid username or password.");
             }
 
             var token = GenerateJwtToken(user);
 
-            return Ok(new { Token = token });
+            return Ok(new { Email = model.Email, Token = token });
         }
-
-        private string HashPassword(string password)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return Convert.ToBase64String(bytes);
-            }
-        }
-
+        
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_iconfiguration["Jwt:SecretKey"]);
+            var key = Encoding.ASCII.GetBytes(_iconfiguration["Jwt:SecretKey"] ?? throw new InvalidOperationException("Jwt:SecretKey is not set"));
 
 
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -108,6 +100,7 @@ namespace backend
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
     }
 }
 
