@@ -43,6 +43,7 @@ namespace backend
             }
 
             _context.User.Remove(user);
+            _context.SaveChanges();
 
             return Ok("User deleted");
         }

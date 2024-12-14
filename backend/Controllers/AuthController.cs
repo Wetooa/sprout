@@ -80,7 +80,7 @@ namespace backend
             return Ok(new { Token = token });
         }
         
-        private static string GenerateJwtToken(User user)
+        private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_iconfiguration["Jwt:SecretKey"]);
