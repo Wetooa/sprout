@@ -50,7 +50,6 @@ function Register() {
       "http://localhost:5105/api/Auth/register",
       values,
     );
-    console.log(data);
   }
 
   return (
