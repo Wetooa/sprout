@@ -2,12 +2,22 @@ import React from "react";
 
 import { bbox } from "@turf/turf";
 import { ChevronDown, ChevronRight, PlusIcon, SunIcon } from "lucide-react";
-import { Map } from "maplibre-gl";
+import { Map, NavigationControl } from "maplibre-gl";
 import { useEffect } from "react";
+import lodash from "lodash";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import WeatherAnalysisWidgetItem, {
   WeatherAnalysisWidgetItemProps,
 } from "./weather-analysis";
+import { MapFilter } from "./page";
 
 const dummyWeatherData: WeatherAnalysisWidgetItemProps[] = [
   { time: "12 AM", weather: 32 },
@@ -24,28 +34,38 @@ const dummyWeatherData: WeatherAnalysisWidgetItemProps[] = [
 
 interface WindowProps {
   id: string;
+  filter: MapFilter;
 }
 
+const MAP_STYLES = {
+  satellite:
+    "https://api.maptiler.com/maps/satellite/style.json?key=wp8RVzXAsc3dZj3qJlo8",
+  topology:
+    "https://api.maptiler.com/maps/topo-v2/style.json?key=wp8RVzXAsc3dZj3qJlo8",
+} as const;
+
+type MapStyleKeys = keyof typeof MAP_STYLES;
+
 function Window(props: WindowProps) {
-  const { id } = props;
+  const { id, filter } = props;
 
   const mapIdDiv = `map-${id}`;
   const eeLayerId = `ee-layer-${id}`;
-  const mapStyle = {
-    height: "100%",
-    width: "100%",
-  };
+
+  const [mapStyle, setMapStyle] = React.useState<MapStyleKeys>("topology");
 
   useEffect(() => {
     const map = new Map({
       container: mapIdDiv,
       zoom: 1,
       center: [0, 0],
-      style: "https://demotiles.maplibre.org/style.json",
+      style: MAP_STYLES[mapStyle],
     });
 
+    map.addControl(new NavigationControl());
+
     map.on("load", async () => {
-      const res = await fetch("/api/ee/soil-moisture");
+      const res = await fetch(`/api/ee/${filter}`);
       const { layers, geojson, message } = await res.json();
 
       if (res.status != 200) {
@@ -69,11 +89,11 @@ function Window(props: WindowProps) {
       const bounds = bbox(geojson);
       map.fitBounds(bounds);
     });
-  }, []);
+  }, [eeLayerId, filter, mapIdDiv, mapStyle]);
 
   return (
     <div className="relative w-full h-full flex flex-col rounded-2xl justify-center overflow-hidden">
-      <div className="z-0" id={mapIdDiv} style={mapStyle}></div>;
+      <div id={mapIdDiv} className="z-0 w-full h-full"></div>;
       <aside className="z-10 absolute top-0 left-0 p-4 space-y-6 w-1/4">
         <div className="rounded-lg overflow-hidden w-full">
           <div className="bg-white flex p-2">
@@ -106,11 +126,29 @@ function Window(props: WindowProps) {
 
         <div className="bg-white/20 backdrop-blur p-4 rounded-lg grid grid-rows-2 grid-cols-5 gap-2">
           {dummyWeatherData.map((data, index) => {
-            return <WeatherAnalysisWidgetItem key={index} {...data} />;
+            return (
+              <WeatherAnalysisWidgetItem key={`${index}-${id}`} {...data} />
+            );
           })}
         </div>
 
-        <div></div>
+        <div>
+          <Select
+            defaultValue={"topology" as MapStyleKeys}
+            onValueChange={(value) => setMapStyle(value as MapStyleKeys)}
+          >
+            <SelectTrigger className="w-full bg-white/20 backdrop-blur">
+              <SelectValue placeholder="Map Style" />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.keys(MAP_STYLES).map((style) => (
+                <SelectItem key={`${style}-${id}`} value={style}>
+                  {lodash.capitalize(style)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </aside>
     </div>
   );

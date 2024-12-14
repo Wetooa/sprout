@@ -4,7 +4,6 @@ export interface WeatherAnalysisWidgetItemProps {
   time: string;
   weather: number;
 }
-
 export default function WeatherAnalysisWidgetItem({
   time,
   weather,

@@ -9,11 +9,13 @@ import Window from "./window";
 
 export type ViewId = string;
 
+export type MapFilter = "ndvi" | "soil-moisture";
+
 function MapPage() {
   const ELEMENT_MAP: { [viewId: string]: JSX.Element } = {
-    a: <Window id={"a"} />,
-    b: <Window id={"b"} />,
-    c: <Window id={"c"} />,
+    a: <Window filter="soil-moisture" id={"a"} />,
+    b: <Window filter="ndvi" id={"b"} />,
+    c: <Window filter="soil-moisture" id={"c"} />,
   };
 
   const TITLE_MAP: { [viewId: string]: string } = {
