@@ -16,6 +16,8 @@ var dbPass = Environment.GetEnvironmentVariable("DB_PASS");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql($"Host={dbHost};Port={dbPort};Database={dbName};Username={dbUser};Password={dbPass}"));
 
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {

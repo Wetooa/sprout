@@ -1,8 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 
 namespace backend
@@ -25,17 +21,14 @@ namespace backend
 
 
     [Route("api/[controller]")]
-
     [ApiController]
     public class AuthController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private readonly IConfiguration _iconfiguration;
 
-        public AuthController(AppDbContext context, IConfiguration configuration)
+        public AuthController(AppDbContext context)
         {
             _context = context;
-            _iconfiguration = configuration;
         }
 
         [HttpPost("register")]
@@ -75,28 +68,9 @@ namespace backend
                 return Unauthorized("Invalid username or password.");
             }
 
-            var token = GenerateJwtToken(user);
+            var token = AuthUtils.GenerateJwtToken(user);
 
             return Ok(new { Email = model.Email, Token = token });
-        }
-        
-        private string GenerateJwtToken(User user)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_iconfiguration["Jwt:SecretKey"] ?? throw new InvalidOperationException("Jwt:SecretKey is not set"));
-
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, user.FirstName + user.LastName) }),
-                Expires = DateTime.UtcNow.AddHours(24),
-                Issuer = _iconfiguration["Jwt:Issuer"],
-                Audience = _iconfiguration["Jwt:Audience"],
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
         }
 
     }
