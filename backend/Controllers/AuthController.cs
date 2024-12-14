@@ -56,7 +56,9 @@ namespace backend
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                Password = AuthUtils.HashPassword(model.Password)
+                Password = AuthUtils.HashPassword(model.Password),
+                SubscriptionTier = "Free", // FIX: This should be changed later
+                CreatedAt = DateTime.UtcNow,
             };
 
             _context.User.Add(newUser);
@@ -77,13 +79,13 @@ namespace backend
 
             var token = GenerateJwtToken(user);
 
-            return Ok(new { Token = token });
+            return Ok(new { Email = model.Email, Token = token });
         }
         
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_iconfiguration["Jwt:SecretKey"]);
+            var key = Encoding.ASCII.GetBytes(_iconfiguration["Jwt:SecretKey"] ?? throw new InvalidOperationException("Jwt:SecretKey is not set"));
 
 
             var tokenDescriptor = new SecurityTokenDescriptor
