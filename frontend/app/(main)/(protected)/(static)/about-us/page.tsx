@@ -2,12 +2,13 @@ import React from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Navbar from "../../navbar";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "About Us",
   description: "Agricultural Empowerment Through Remote Sensing Technology",
 };
-
 const members: MemberContainerProps[] = [
   {
     name: "Thomas Danjo Manulat",
@@ -16,7 +17,13 @@ const members: MemberContainerProps[] = [
     image: "danjo.png",
     content:
       "Thomas ensures smooth project execution, coordinating between departments to keep Sprout’s development on track and aligned with farmers' needs.",
-    socials: {},
+    socials: {
+      linkedin: "https://linkedin.com/in/thomas",
+      google: "https://plus.google.com/thomas",
+      facebook: "https://facebook.com/thomas",
+      twitter: "https://twitter.com/thomas",
+      instagram: "https://instagram.com/thomas",
+    },
   },
   {
     name: "Malt John Vianney C. Solon",
@@ -25,7 +32,13 @@ const members: MemberContainerProps[] = [
     image: "malt.png",
     content:
       "Malt manages Sprout’s data architecture, ensuring efficient, secure, and scalable management of user information and weather analytics.",
-    socials: {},
+    socials: {
+      linkedin: "https://linkedin.com/in/malt",
+      google: "https://plus.google.com/malt",
+      facebook: "https://facebook.com/malt",
+      twitter: "https://twitter.com/malt",
+      instagram: "https://instagram.com/malt",
+    },
   },
   {
     name: "Simon Lyster P. Escaño",
@@ -34,7 +47,13 @@ const members: MemberContainerProps[] = [
     image: "simon.jpg",
     content:
       "Simon designs Sprout’s user interface, crafting a user-friendly and aesthetically pleasing experience, making sure every farmer can easily navigate the app.",
-    socials: {},
+    socials: {
+      linkedin: "https://linkedin.com/in/simon",
+      google: "https://plus.google.com/simon",
+      facebook: "https://facebook.com/simon",
+      twitter: "https://twitter.com/simon",
+      instagram: "https://instagram.com/simon",
+    },
   },
   {
     name: "Adrian T. Sajulga",
@@ -43,7 +62,13 @@ const members: MemberContainerProps[] = [
     image: "adrian.png",
     content:
       "Adrian designs and implements scalable backend architectures, ensuring high performance and seamless integration across services.",
-    socials: {},
+    socials: {
+      linkedin: "https://linkedin.com/in/adrian",
+      google: "https://plus.google.com/adrian",
+      facebook: "https://facebook.com/adrian",
+      twitter: "https://twitter.com/adrian",
+      instagram: "https://instagram.com/adrian",
+    },
   },
   {
     name: "Kaye Aizerner Evangelista",
@@ -52,16 +77,28 @@ const members: MemberContainerProps[] = [
     image: "aizerner.png",
     content:
       "Kaye leads backend development, specializing in integrating complex systems to deliver efficient, reliable technical solutions.",
-    socials: {},
+    socials: {
+      linkedin: "https://linkedin.com/in/kaye",
+      google: "https://plus.google.com/kaye",
+      facebook: "https://facebook.com/kaye",
+      twitter: "https://twitter.com/kaye",
+      instagram: "https://instagram.com/kaye",
+    },
   },
   {
     name: "Ranz Lumayno",
     role: "Backend Developer & Algorithm Specialist",
-    alt: "thomas-image",
+    alt: "ranz-image",
     image: "ranz.png",
     content:
       "Ranz focuses on backend development, crafting optimized algorithms that enhance system performance and handle data-driven tasks efficiently.",
-    socials: {},
+    socials: {
+      linkedin: "https://linkedin.com/in/ranz",
+      google: "https://plus.google.com/ranz",
+      facebook: "https://facebook.com/ranz",
+      twitter: "https://twitter.com/ranz",
+      instagram: "https://instagram.com/ranz",
+    },
   },
 ];
 
@@ -141,10 +178,10 @@ interface MemberContainerProps {
 }
 
 function MemberContainer(props: MemberContainerProps) {
-  const { name, role, content, image, alt } = props;
+  const { name, role, content, image, alt, socials } = props;
 
   return (
-    <div className="space-y-4 bg-white/80 p-8 rounded-2xl shadow-black">
+    <div className="flex flex-col gap-4 bg-white/80 p-8 rounded-2xl shadow-black h-full">
       <Image
         className="w-full rounded-full aspect-square border-4 border-primary"
         src={`/members/${image}`}
@@ -161,7 +198,27 @@ function MemberContainer(props: MemberContainerProps) {
 
       <p className="text-primary">{content}</p>
 
-      <div className="flex justify-center gap-4"></div>
+      <div className="flex justify-center gap-2 mt-auto">
+        {Object.entries(socials).map(([key, value]) => {
+          return (
+            <Button
+              key={key}
+              variant={"secondary"}
+              asChild
+              className="bg-white/80 p-2 rounded-lg"
+            >
+              <Link href={value}>
+                <Image
+                  src={`icons/social-media/${key}.svg`}
+                  alt={key}
+                  width={24}
+                  height={24}
+                />
+              </Link>
+            </Button>
+          );
+        })}
+      </div>
     </div>
   );
 }
