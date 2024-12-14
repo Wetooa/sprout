@@ -38,6 +38,8 @@ interface WindowProps {
 }
 
 const MAP_STYLES = {
+  basic:
+    "https://api.maptiler.com/maps/basic-v2/style.json?key=wp8RVzXAsc3dZj3qJlo8",
   satellite:
     "https://api.maptiler.com/maps/satellite/style.json?key=wp8RVzXAsc3dZj3qJlo8",
   topology:
@@ -51,8 +53,9 @@ function Window(props: WindowProps) {
 
   const mapIdDiv = `map-${id}`;
   const eeLayerId = `ee-layer-${id}`;
+  const defaultMapStyle: MapStyleKeys = "basic";
 
-  const [mapStyle, setMapStyle] = React.useState<MapStyleKeys>("topology");
+  const [mapStyle, setMapStyle] = React.useState<MapStyleKeys>(defaultMapStyle);
 
   useEffect(() => {
     const map = new Map({
@@ -134,7 +137,7 @@ function Window(props: WindowProps) {
 
         <div>
           <Select
-            defaultValue={"topology" as MapStyleKeys}
+            defaultValue={defaultMapStyle}
             onValueChange={(value) => setMapStyle(value as MapStyleKeys)}
           >
             <SelectTrigger className="w-full bg-white/20 backdrop-blur">
