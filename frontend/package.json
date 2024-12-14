@@ -13,6 +13,7 @@
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "@rescale/nemo": "^1.3.3",
     "@turf/turf": "^7.1.0",
     "@types/maplibre-gl": "^1.14.0",
     "@types/turf": "^3.5.32",

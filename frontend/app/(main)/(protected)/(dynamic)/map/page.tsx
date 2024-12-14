@@ -43,17 +43,17 @@ function MapPage() {
     });
 
     map.on("load", async () => {
-      const res = await fetch("/api/ee");
-      const { urlFormat, geojson, message } = await res.json();
+      const res = await fetch("/api/ee/soil-moisture");
+      const { layers, geojson, message } = await res.json();
 
-      if (!res.ok) {
+      if (res.status != 200) {
         throw new Error(message);
       }
 
       // If it is good then add the layer url to the map
       map.addSource(eeLayerId, {
         type: "raster",
-        tiles: [urlFormat],
+        tiles: [...layers],
         tileSize: 256,
       });
 
