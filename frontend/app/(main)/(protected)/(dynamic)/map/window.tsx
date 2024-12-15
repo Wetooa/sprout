@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 
 import { bbox } from "@turf/turf";
-import { ChevronDown, ChevronRight, PlusIcon, SunIcon } from "lucide-react";
+import lodash from "lodash";
+import { ChevronRight, PlusIcon } from "lucide-react";
 import { Map, NavigationControl } from "maplibre-gl";
 import { useEffect } from "react";
-import GenerateInsightsButton from "./insights";
-import lodash from "lodash";
 
 import {
   Select,
@@ -15,23 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import WeatherAnalysisWidgetItem, {
-  WeatherAnalysisWidgetItemProps,
-} from "./weather-analysis";
 import { MapFilter } from "./page";
-
-const dummyWeatherData: WeatherAnalysisWidgetItemProps[] = [
-  { time: "12 AM", weather: 32 },
-  { time: "1 AM", weather: 30 },
-  { time: "2 AM", weather: 29 },
-  { time: "3 AM", weather: 28 },
-  { time: "4 AM", weather: 27 },
-  { time: "5 AM", weather: 26 },
-  { time: "6 AM", weather: 25 },
-  { time: "7 AM", weather: 24 },
-  { time: "8 AM", weather: 23 },
-  { time: "9 AM", weather: 22 },
-];
 
 interface WindowProps {
   id: string;
@@ -116,27 +99,6 @@ function Window(props: WindowProps) {
         </div>
 
         <GenerateInsightsButton />
-
-        <div className="bg-white/20 backdrop-blur p-4 rounded-lg flex flex-col items-center gap-2">
-          <div className="flex">
-            Today <ChevronDown />
-          </div>
-          <div className="flex">
-            <SunIcon />
-            <p className="text-6xl">32 &deg;</p>
-          </div>
-          <p>Sunny</p>
-          <p>Cebu City, Cebu</p>
-          <p>10 Oct 2019</p>
-        </div>
-
-        <div className="bg-white/20 backdrop-blur p-4 rounded-lg grid grid-rows-2 grid-cols-5 gap-2">
-          {dummyWeatherData.map((data, index) => {
-            return (
-              <WeatherAnalysisWidgetItem key={`${index}-${id}`} {...data} />
-            );
-          })}
-        </div>
 
         <div>
           <Select

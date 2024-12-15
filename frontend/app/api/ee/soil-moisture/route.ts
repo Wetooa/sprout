@@ -32,64 +32,124 @@ export async function GET(req: NextRequest) {
       // Filter for descending orbit (typically better for soil moisture)
       .filter(ee.Filter.eq("orbitProperties_pass", "DESCENDING"));
 
-    // Function to calculate soil moisture index
-    function calculateSoilMoistureIndex(image: any) {
-      // Calculate the ratio of VV to VH polarization
-      const soilMoistureIndex = image
-        .select("VV")
-        .divide(image.select("VH"))
-        .rename("SoilMoistureIndex");
-      return image.addBands(soilMoistureIndex);
-    }
+    // Load elevation data
+    const elevation = ee.Image("USGS/SRTMGL1_003").clip(philippines);
 
-    // Apply soil moisture index calculation
-    const soilMoistureCollection = sentinel1.map(calculateSoilMoistureIndex);
-
-    // Calculate median to reduce noise and temporal variations
-    const medianSoilMoisture = soilMoistureCollection
-      .select("SoilMoistureIndex")
-      .median();
-
-    // Clip to region of interest
-    const soilMoistureClipped =
-      medianSoilMoisture.clipToCollection(philippines);
-
-    // Create a terrain mask to improve soil moisture estimation
-    const terrain = ee.Terrain.products(ee.Image("USGS/SRTMGL1_003"));
+    // Terrain processing
+    const terrain = ee.Terrain.products(elevation);
     const slope = terrain.select("slope");
 
-    // Apply slope mask to reduce terrain effects
-    const slopeMask = slope.lt(10); // Mask areas with slope less than 10 degrees
-    const soilMoisturemasked = soilMoistureClipped.updateMask(slopeMask);
+    // Enhanced Soil Moisture Index calculation function
+    function calculateEnhancedSoilMoistureIndex(image: any) {
+      // Calculate multiple indices for robust estimation
+      const vvVhRatio = image
+        .select("VV")
+        .divide(image.select("VH"))
+        .rename("VV_VH_Ratio");
+      const logRatio = image
+        .expression("log(vv / vh)", {
+          vv: image.select("VV"),
+          vh: image.select("VH"),
+        })
+        .rename("Log_VV_VH_Ratio");
 
-    // Visualization parameters
-    const soilMoistureParams = {
-      min: 0, // Minimum index value
-      max: 2, // Maximum index value
-      palette: [
-        "#8B4513", // Dark brown (very dry)
-        "#D2691E", // Sienna (dry)
-        "#FFFFFF", // White (moderate moisture)
-        "#87CEEB", // Sky blue (moist)
-        "#0000FF", // Deep blue (wet)
-      ],
+      // Combine indices
+      return image
+        .addBands(vvVhRatio)
+        .addBands(logRatio)
+        .addBands(
+          image.select("VV").subtract(image.select("VH")).rename("VV_Minus_VH"),
+        );
+    }
+
+    // Preprocessing function to handle noise and calibration
+    function preprocessSentinel1(collection: any) {
+      return collection.map(function (image: any) {
+        // Simple preprocessing without complex terrain correction
+        return image.addBands(
+          image.select("VV").subtract(image.select("VH")).rename("VV_Minus_VH"),
+        );
+      });
+    }
+
+    // Apply preprocessing and enhanced index calculation
+    const processedSentinel1 = preprocessSentinel1(sentinel1);
+    const soilMoistureCollection = processedSentinel1.map(
+      calculateEnhancedSoilMoistureIndex,
+    );
+
+    // Calculate median and statistical metrics
+    const medianSoilMoisture = {
+      vvVhRatio: soilMoistureCollection.select("VV_VH_Ratio").median(),
+      logRatio: soilMoistureCollection.select("Log_VV_VH_Ratio").median(),
+      vvMinusVh: soilMoistureCollection.select("VV_Minus_VH").median(),
     };
 
+    // Create terrain mask with more sophisticated approach
+    const terrainMask = slope.lt(15); // Slope less than 15 degrees
+
+    // Apply masks and prepare visualization
+    const soilMoistureProcessed = {
+      vvVhRatio: medianSoilMoisture.vvVhRatio
+        .clipToCollection(philippines)
+        .updateMask(terrainMask),
+
+      logRatio: medianSoilMoisture.logRatio
+        .clipToCollection(philippines)
+        .updateMask(terrainMask),
+    };
+
+    // Visualization parameters with enhanced color palette
+    const soilMoistureParams = {
+      vvVhRatio: {
+        min: 0,
+        max: 2,
+        palette: [
+          "#8B4513", // Dark brown (very dry)
+          "#D2691E", // Sienna (dry)
+          "#FFA500", // Orange (moderately dry)
+          "#90EE90", // Light green (moist)
+          "#00FF00", // Bright green (very moist)
+          "#0000FF", // Blue (wet)
+        ],
+      },
+      logRatio: {
+        min: -2,
+        max: 2,
+        palette: [
+          "#8B4513", // Dark brown (very dry)
+          "#D2691E", // Sienna (dry)
+          "#FFFFFF", // White (neutral)
+          "#87CEEB", // Sky blue (moist)
+          "#0000FF", // Deep blue (wet)
+        ],
+      },
+    };
+
+    // Export results for further analysis
     const { urlFormat: layer1 } = await getMapId(
-      soilMoisturemasked,
-      soilMoistureParams,
+      processedSentinel1
+        .select(["VV", "VH"])
+        .median()
+        .clipToCollection(philippines),
+      { min: -25, max: 0 },
     );
 
     const { urlFormat: layer2 } = await getMapId(
-      sentinel1.select(["VV", "VH"]).median().clipToCollection(philippines),
-      { min: -25, max: 0 },
+      soilMoistureProcessed.vvVhRatio,
+      soilMoistureParams.vvVhRatio,
+    );
+
+    const { urlFormat: layer3 } = await getMapId(
+      soilMoistureProcessed.logRatio,
+      soilMoistureParams.logRatio,
     );
 
     const imageGeom = philippines.geometry();
     const imageGeometryGeojson = await evaluate(imageGeom);
 
     return NextResponse.json(
-      { layers: [layer1, layer2], geojson: imageGeometryGeojson },
+      { layers: [layer1, layer2, layer3], geojson: imageGeometryGeojson },
       { status: 200 },
     );
   } catch (message) {
