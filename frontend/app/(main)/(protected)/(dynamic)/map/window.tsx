@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { bbox } from "@turf/turf";
 import { ChevronDown, ChevronRight, PlusIcon, SunIcon } from "lucide-react";
 import { Map, NavigationControl } from "maplibre-gl";
 import { useEffect } from "react";
+import GenerateInsightsButton from "./insights";
 import lodash from "lodash";
 
 import {
@@ -113,6 +114,8 @@ function Window(props: WindowProps) {
             </div>
           </div>
         </div>
+
+        <GenerateInsightsButton />
 
         <div className="bg-white/20 backdrop-blur p-4 rounded-lg flex flex-col items-center gap-2">
           <div className="flex">
