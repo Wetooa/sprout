@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 
 import { bbox } from "@turf/turf";
+import lodash from "lodash";
 import { ChevronRight, PlusIcon } from "lucide-react";
 import { Map, NavigationControl } from "maplibre-gl";
 import { useEffect } from "react";
-import GenerateInsightsButton from "./insights";
-import lodash from "lodash";
 
 import {
   Select,
