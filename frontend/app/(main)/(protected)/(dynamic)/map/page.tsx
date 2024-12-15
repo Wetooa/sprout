@@ -28,6 +28,13 @@ export type MapFilter =
   | "land-surface-temperature"
   | "precipitation";
 
+export const mapFilters: MapFilter[] = [
+  "ndvi",
+  "soil-moisture",
+  "land-surface-temperature",
+  "precipitation",
+];
+
 function MapPage() {
   const [maps, setMaps] = useState<MapData[]>([]);
   const [elementMap, setElementMap] = useState<{

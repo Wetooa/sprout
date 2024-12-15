@@ -14,11 +14,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { MapFilter } from "./page";
+import { MapFilter, mapFilters } from "./page";
+import GenerateInsightsButton from "./insights";
 
-type MapStyleKeys = keyof typeof MAP_STYLES;
-
-const MAP_STYLES = {
+export type MapStyleKeys = keyof typeof MAP_STYLES;
+export const MAP_STYLES = {
   basic:
     "https://api.maptiler.com/maps/basic-v2/style.json?key=wp8RVzXAsc3dZj3qJlo8",
   satellite:
@@ -39,6 +39,7 @@ function Window(props: WindowProps) {
   const mapIdDiv = `map-${id}`;
   const eeLayerId = `ee-layer-${id}`;
 
+  const [mapFilter, setMapFilter] = React.useState<MapFilter>(filter);
   const [mapStyle, setMapStyle] = React.useState<MapStyleKeys>(ms);
 
   useEffect(() => {
@@ -52,7 +53,7 @@ function Window(props: WindowProps) {
     map.addControl(new NavigationControl());
 
     map.on("load", async () => {
-      const res = await fetch(`/api/ee/${filter}`);
+      const res = await fetch(`/api/ee/${mapFilter}`);
       const { layers, geojson, message } = await res.json();
 
       if (res.status != 200) {
@@ -76,7 +77,7 @@ function Window(props: WindowProps) {
       const bounds = bbox(geojson);
       map.fitBounds(bounds);
     });
-  }, [eeLayerId, filter, mapIdDiv, mapStyle]);
+  }, [eeLayerId, mapFilter, mapIdDiv, mapStyle]);
 
   return (
     <div className="relative w-full h-full flex flex-col rounded-2xl justify-center overflow-hidden">
@@ -92,6 +93,24 @@ function Window(props: WindowProps) {
             </SelectTrigger>
             <SelectContent>
               {Object.keys(MAP_STYLES).map((style) => (
+                <SelectItem key={`${style}-${id}`} value={style}>
+                  {lodash.capitalize(style)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <Select
+            defaultValue={mapFilter}
+            onValueChange={(value) => setMapFilter(value as MapFilter)}
+          >
+            <SelectTrigger className="w-full bg-white/20 backdrop-blur">
+              <SelectValue placeholder="Map Style" />
+            </SelectTrigger>
+            <SelectContent>
+              {mapFilters.map((style) => (
                 <SelectItem key={`${style}-${id}`} value={style}>
                   {lodash.capitalize(style)}
                 </SelectItem>
