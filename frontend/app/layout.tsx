@@ -3,8 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 const interFont = localFont({
-  src: "./fonts/Inter-VariableFont_opsz,wght.ttf", // Path to the font file in the public folder
-  variable: "--font-inter", // Custom CSS variable for this font
+  src: "./fonts/Inter-VariableFont_opsz,wght.ttf",
+  variable: "--font-inter",
   weight: "100 900",
   display: "swap",
 });
