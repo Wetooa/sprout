@@ -1,43 +1,56 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend
 {
-
-  [Route("api/[controller]")]
-  [ApiController]
-  public class UserController : ControllerBase
-  {
-
+    [Authorize]
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
+    {
         private readonly AppDbContext _context;
-        private readonly IConfiguration _iconfiguration;
 
-        public UserController(AppDbContext context, IConfiguration configuration)
+        public UserController(AppDbContext context)
         {
             _context = context;
-            _iconfiguration = configuration;
         }
 
-        [HttpGet("get-all")]
-        public IActionResult GetAllUsers()
+        [HttpGet("get")]
+        public IActionResult GetUserAccount()
         {
-            var user = _context.User;
+            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var user = _context.User.SingleOrDefault(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return Unauthorized("User not found");
+            }
+
             return Ok(user);
         }
 
+        // NOTE: Incomplete
+        [HttpPatch("update")]
+        public IActionResult Update([FromBody] RegisterModel model)
+        {
+            var user = _context.User.SingleOrDefault(u =>
+                u.Id == Int32.Parse(ClaimTypes.NameIdentifier)
+            );
+
+            _context.SaveChanges();
+
+            return Ok("User updated");
+        }
 
         [HttpDelete("delete")]
         public IActionResult Delete([FromBody] LoginModel model)
         {
-            var user = _context.User.SingleOrDefault(u => u.Email == model.Email);
+            var user = _context.User.SingleOrDefault(u =>
+                u.Id == Int32.Parse(ClaimTypes.NameIdentifier)
+            );
 
-            if (user == null || user.Password != AuthUtils.HashPassword(model.Password))
+            if (user == null)
             {
                 return Unauthorized("Invalid credentials");
             }
@@ -47,5 +60,5 @@ namespace backend
 
             return Ok("User deleted");
         }
-  }
+    }
 }

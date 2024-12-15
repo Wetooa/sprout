@@ -16,26 +16,24 @@ namespace backend.Migrations
                 table: "User",
                 type: "timestamp with time zone",
                 nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "SubscriptionTier",
                 table: "User",
                 type: "text",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "CreatedAt",
-                table: "User");
+            migrationBuilder.DropColumn(name: "CreatedAt", table: "User");
 
-            migrationBuilder.DropColumn(
-                name: "SubscriptionTier",
-                table: "User");
+            migrationBuilder.DropColumn(name: "SubscriptionTier", table: "User");
         }
     }
 }
