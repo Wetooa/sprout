@@ -4,7 +4,7 @@ import {
   PanelRightOpen,
   SunIcon,
 } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import WeatherAnalysisWidgetItem, {
   WeatherAnalysisWidgetItemProps,
 } from "./weather-analysis";
@@ -26,10 +26,39 @@ const dummyWeatherData: WeatherAnalysisWidgetItemProps[] = [
 
 function Sidebar() {
   const { toggleSidebar, isOpen } = useSidebarStore();
+  const [city, setCity] = useState("Cebu");
+  const [date, setDate] = useState<string>("");
+  const [time, setTime] = useState<string>("");
+
+  const currentWeather = 28;
+  const weatherDescription = "Clear sky";
+
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const formattedDate = now.toLocaleDateString();
+    const formattedTime = now.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    setDate(formattedDate);
+    setTime(formattedTime);
+  };
+
+  useEffect(() => {
+    const dateTimeInterval = setInterval(getCurrentDateTime, 60000);
+
+    getCurrentDateTime();
+
+    return () => {
+      clearInterval(dateTimeInterval);
+    };
+  }, []);
 
   return (
     <div
-      className={`h-full transition-all relative ${isOpen ? "w-0" : "w-72"}`}
+      className={`flex flex-col h-full transition-all relative gap-3 ${
+        isOpen ? "w-0" : "w-60"
+      }`}
     >
       <Button
         onClick={toggleSidebar}
@@ -39,23 +68,27 @@ function Sidebar() {
         {isOpen ? <PanelRightOpen /> : <PanelRightClose />}
       </Button>
 
-      <div className="bg-white/20 backdrop-blur p-4 rounded-lg flex flex-col items-center gap-2">
-        <div className="flex">
-          Today <ChevronDown />
+      <div className="bg-white/20 backdrop-blur p-4 rounded-lg flex flex-col items-center gap-2 bg-gradient-to-br from-[#059568] to-[#065f46] text-white">
+        <div className="flex w-full">
+          <p>{city}</p>
         </div>
-        <div className="flex">
-          <SunIcon />
-          <p className="text-6xl">32 &deg;</p>
+        <div className="flex items-center">
+          <SunIcon className="mr-2" />
+          <p className="text-6xl">
+            {currentWeather !== null ? `${currentWeather}°` : "Loading..."}
+          </p>
         </div>
-        <p>Sunny</p>
-        <p>Cebu City, Cebu</p>
-        <p>10 Oct 2019</p>
+        <p>{weatherDescription}</p>
+        <div className="flex gap-3">
+          <p>{date}</p>
+          <p>{time}</p>
+        </div>
       </div>
 
-      <div className="bg-white/20 backdrop-blur p-4 rounded-lg grid grid-rows-2 grid-cols-5 gap-2">
-        {dummyWeatherData.map((data, index) => {
-          return <WeatherAnalysisWidgetItem key={`${index}`} {...data} />;
-        })}
+      <div className="bg-white/20 backdrop-blur p-4 rounded-lg grid grid-rows-2 grid-cols-5 gap-2 bg-gradient-to-br from-[#059568] to-[#065f46] text-white">
+        {dummyWeatherData.map((data, index) => (
+          <WeatherAnalysisWidgetItem key={index} {...data} />
+        ))}
       </div>
     </div>
   );

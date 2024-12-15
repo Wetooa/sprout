@@ -20,12 +20,12 @@ export default function WeatherAnalysisWidgetItem({
 
   return (
     <div className="text-sm text-center">
-      <div>{time}</div>
-      <div className="flex items-center ">
-        <div className="aspect-square flex items-center justify-center w-6">
+      <div className="text-xs font-semibold">{time}</div>
+      <div className="flex items-center">
+        <div className="aspect-square flex items-center justify-center w-4">
           {getWeatherIcon(weather)}
         </div>
-        <p className="w-full ">{weather}&deg;</p>
+        <p className="w-full text-xs m-0">{weather}&deg;</p>
       </div>
     </div>
   );
