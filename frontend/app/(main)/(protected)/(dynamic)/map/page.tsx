@@ -13,6 +13,12 @@ import "react-mosaic-component/react-mosaic-component.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 
+import "maplibre-gl/dist/maplibre-gl.css";
+
+import "react-mosaic-component/react-mosaic-component.css";
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+
 export type ViewId = string;
 
 export type MapData = {
@@ -49,14 +55,13 @@ function MapPage() {
   useEffect(() => {
     // Fetch data from the backend API
     const fetchData = async () => {
-
       const token = localStorage.getItem("token"); // Get token from local storage
 
-        if (!token) {
-          // Handle the case when the user is not logged in (no token)
-          router.push("/auth/login");
-          return;
-        }
+      if (!token) {
+        // Handle the case when the user is not logged in (no token)
+        router.push("/auth/login");
+        return;
+      }
       try {
         const response = await fetch("http://localhost:5105/api/map", {
           method: "GET",

@@ -129,4 +129,3 @@ namespace backend
     {
         public string ImageUrl { get; set; }
     }
-}
