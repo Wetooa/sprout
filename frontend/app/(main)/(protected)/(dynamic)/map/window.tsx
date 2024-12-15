@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 
 import { MapFilter } from "./page";
+import GenerateInsightsButton from "./insights";
 
 interface WindowProps {
   id: string;
