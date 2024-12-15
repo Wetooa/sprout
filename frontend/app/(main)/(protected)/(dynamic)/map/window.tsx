@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/select";
 
 import { MapFilter } from "./page";
-import GenerateInsightsButton from "./insights";
 
 type MapStyleKeys = keyof typeof MAP_STYLES;
 
@@ -83,24 +82,6 @@ function Window(props: WindowProps) {
     <div className="relative w-full h-full flex flex-col rounded-2xl justify-center overflow-hidden">
       <div id={mapIdDiv} className="z-0 w-full h-full"></div>;
       <aside className="z-10 absolute top-0 left-0 p-4 space-y-6 w-1/4">
-        <div className="rounded-lg overflow-hidden w-full">
-          <div className="bg-white flex p-2">
-            Province |
-            <button className="flex">
-              Cebu <ChevronRight />
-            </button>
-          </div>
-
-          <div className="text-white flex justify-between bg-gradient-to-b from-primary to-primary/80 p-2">
-            <div>Add field</div>
-            <div className="rounded-full border-2 border-white">
-              <PlusIcon />
-            </div>
-          </div>
-        </div>
-
-        <GenerateInsightsButton />
-
         <div>
           <Select
             defaultValue={ms}

@@ -14,7 +14,7 @@ function GenerateInsightsButton() {
   return (
     <div>
       <button
-        className="transition-all flex items-center rounded-lg px-4 py-3 w-full justify-center bg-[#0e7960] hover:bg-[#216958] text-white cursor-pointer"
+        className="transition-all flex items-center rounded-lg px-4 py-3 w-full justify-center bg-gradient-to-br from-[#059568] to-[#065f46] hover:bg-[#216958] cursor-pointer font-medium text-[#ECFDF5]"
         onClick={handleClick}
       >
         Generate Insights
@@ -37,7 +37,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
   const imageUrl =
     "https://www.opticslens.com/uploads/The-application-of-NDVI-01.jpg";
   const apiUrl = `http://localhost:5105/api/Insight/GenerateInsights?imageUrl=${encodeURIComponent(
-    imageUrl,
+    imageUrl
   )}`;
 
   async function fetchInsights() {
@@ -58,7 +58,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
         } else {
           console.error(
             "API Response does not contain 'Result'. Full Response:",
-            data,
+            data
           );
           return "Error: Result field is missing in response.";
         }

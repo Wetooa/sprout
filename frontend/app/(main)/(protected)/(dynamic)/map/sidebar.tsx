@@ -1,7 +1,9 @@
 import {
   ChevronDown,
+  ChevronRight,
   PanelRightClose,
   PanelRightOpen,
+  PlusIcon,
   SunIcon,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -10,6 +12,7 @@ import WeatherAnalysisWidgetItem, {
 } from "./weather-analysis";
 import { Button } from "@/components/ui/button";
 import { useSidebarStore } from "@/store/sidebar";
+import GenerateInsightsButton from "./insights";
 
 const dummyWeatherData: WeatherAnalysisWidgetItemProps[] = [
   { time: "12 AM", weather: 32 },
@@ -67,6 +70,25 @@ function Sidebar() {
       >
         {isOpen ? <PanelRightOpen /> : <PanelRightClose />}
       </Button>
+
+      <div className="rounded-lg overflow-hidden w-full">
+        <div className="bg-white flex px-4 py-2 gap-1 items-center">
+          <p className="m-0 text-[#6B7280]">Province</p>
+          <p className="m-0 text-[#6B7280]">|</p>
+          <button className="flex items-center font-semibold text-[#1F2937]">
+            Cebu <ChevronRight />
+          </button>
+        </div>
+
+        <div className="text-white flex justify-between bg-gradient-to-b from-primary/80 to-primary px-4 py-2 items-center">
+          <div className="font-medium text-[#ECFDF5]">Add field</div>
+          <div className="rounded-full border-2">
+            <PlusIcon className="w-3.5 h-3.5" />
+          </div>
+        </div>
+      </div>
+
+      <GenerateInsightsButton />
 
       <div className="bg-white/20 backdrop-blur p-4 rounded-lg flex flex-col items-center gap-2 bg-gradient-to-br from-[#059568] to-[#065f46] text-white">
         <div className="flex w-full">
