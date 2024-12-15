@@ -9,10 +9,10 @@ import React, { useEffect, useState } from "react";
 import WeatherAnalysisWidgetItem, {
   WeatherAnalysisWidgetItemProps,
 } from "./weather-analysis";
-import { Button } from "@/components/ui/button";
 import { useSidebarStore } from "@/store/sidebar";
 import GenerateInsightsButton from "./insights";
 import AddField from "./add-field";
+import Province from "./province";
 
 const dummyWeatherData: WeatherAnalysisWidgetItemProps[] = [
   { time: "12 AM", weather: 32 },
@@ -62,12 +62,10 @@ function Sidebar() {
       className={`flex flex-col h-full transition-all absolute gap-3 left-5 top-12 w-60 mr-4 z-10`}
     >
       <div className="rounded-lg overflow-hidden w-full">
-        <div className="bg-white flex px-4 py-2 gap-1 items-center">
+        <div className="bg-white flex px-4 py-2 gap-2 items-center">
           <p className="m-0 text-[#6B7280]">Province</p>
           <p className="m-0 text-[#6B7280]">|</p>
-          <button className="flex items-center font-semibold text-gray-800 w-full justify-between">
-            Cebu <ChevronRight className="text-gray-800" />
-          </button>
+          <Province />
         </div>
         <AddField />
       </div>
