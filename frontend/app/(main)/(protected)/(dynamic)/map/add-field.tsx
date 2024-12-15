@@ -42,7 +42,7 @@ function AddField() {
 
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/fields", {
+      const response = await fetch("http://localhost:5105/api/fields", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,6 +54,7 @@ function AddField() {
         alert("Field added successfully!");
         handleCloseModal();
       } else {
+        console.log(response);
         alert("Failed to add field.");
       }
     } catch (error) {

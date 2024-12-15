@@ -60,23 +60,20 @@ function Login() {
 
       setSuccessMessage(data.Message);
 
-            
-            localStorage.setItem("token", data.Token);
-            localStorage.setItem("userID", data.UserId);
-            localStorage.setItem("Email", data.Email);
+      localStorage.setItem("token", data.Token);
+      localStorage.setItem("userID", data.UserId);
+      localStorage.setItem("Email", data.Email);
 
-
-            router.push("/map");
-        } catch (error: any) {
-            if (error.response) {
-                console.log(error.response);
-                setErrorMessage(error.response?.data?.message);
-              } else {
-                setErrorMessage("An error occurred during login.");
-              }
-        } finally {
-            setIsLoading(false); // Hide loading state when done
-        }
+      router.push("/map");
+    } catch (error: any) {
+      if (error.response) {
+        console.log(error.response);
+        setErrorMessage(error.response?.data?.message);
+      } else {
+        setErrorMessage("An error occurred during login.");
+      }
+    } finally {
+      setIsLoading(false); // Hide loading state when done
     }
   }
 
