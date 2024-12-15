@@ -60,8 +60,10 @@ function Login() {
 
             setSuccessMessage(data.Message);
 
-
+            
             sessionStorage.setItem("token", data.Token);
+            sessionStorage.setItem("userID", data.UserId);
+            sessionStorage.setItem("Email", data.Email);
 
 
             router.push("/map");
