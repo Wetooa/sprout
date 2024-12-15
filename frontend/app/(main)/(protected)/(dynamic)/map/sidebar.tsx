@@ -57,7 +57,7 @@ function Sidebar() {
   return (
     <div
       className={`flex flex-col h-full transition-all relative gap-3 ${
-        isOpen ? "w-0" : "w-60"
+        isOpen ? "w-0" : "w-60 mr-4"
       }`}
     >
       <Button
@@ -70,7 +70,7 @@ function Sidebar() {
 
       <div className="bg-white/20 backdrop-blur p-4 rounded-lg flex flex-col items-center gap-2 bg-gradient-to-br from-[#059568] to-[#065f46] text-white">
         <div className="flex w-full">
-          <p>{city}</p>
+          <p className="font-semibold">{city}</p>
         </div>
         <div className="flex items-center">
           <SunIcon className="mr-2" />
@@ -79,7 +79,7 @@ function Sidebar() {
           </p>
         </div>
         <p>{weatherDescription}</p>
-        <div className="flex gap-3">
+        <div className="flex gap-4">
           <p>{date}</p>
           <p>{time}</p>
         </div>
