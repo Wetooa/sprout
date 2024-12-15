@@ -5,8 +5,8 @@ import "./globals.css";
 const interFont = localFont({
   src: "./fonts/Inter-VariableFont_opsz,wght.ttf", // Path to the font file in the public folder
   variable: "--font-inter", // Custom CSS variable for this font
-  weight: "100 900", // Specify the range of font weights (optional for variable fonts)
-  display: "swap", // Optional, for better font display behavior
+  weight: "100 900",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
