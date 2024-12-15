@@ -27,7 +27,6 @@ function Navbar() {
           router.push("/");
         }}
       />
-
       <div className="space-x-2 text-white">
         {links.map(([name, href]) => {
           return (

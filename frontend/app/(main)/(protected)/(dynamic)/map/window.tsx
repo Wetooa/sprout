@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
 import { bbox } from "@turf/turf";
-import { ChevronDown, ChevronRight, PlusIcon, SunIcon } from "lucide-react";
+import lodash from "lodash";
+import { ChevronRight, PlusIcon } from "lucide-react";
 import { Map, NavigationControl } from "maplibre-gl";
 import { useEffect } from "react";
 import GenerateInsightsButton from "./insights";
@@ -15,23 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import WeatherAnalysisWidgetItem, {
-  WeatherAnalysisWidgetItemProps,
-} from "./weather-analysis";
 import { MapFilter } from "./page";
-
-const dummyWeatherData: WeatherAnalysisWidgetItemProps[] = [
-  { time: "12 AM", weather: 32 },
-  { time: "1 AM", weather: 30 },
-  { time: "2 AM", weather: 29 },
-  { time: "3 AM", weather: 28 },
-  { time: "4 AM", weather: 27 },
-  { time: "5 AM", weather: 26 },
-  { time: "6 AM", weather: 25 },
-  { time: "7 AM", weather: 24 },
-  { time: "8 AM", weather: 23 },
-  { time: "9 AM", weather: 22 },
-];
 
 interface WindowProps {
   id: string;
