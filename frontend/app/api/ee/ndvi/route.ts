@@ -38,10 +38,10 @@ export async function GET(req: NextRequest) {
     const ndviCollection = dataset.map(calculateNDVI);
 
     // Get the median NDVI image to reduce cloud effects
-    const medianNDVI = ndviCollection.select("NDVI");
+    const medianNDVI = ndviCollection.select("NDVI").median();
 
     // Clip the NDVI image to Philippines boundary
-    // const ndviPhilippines = medianNDVI.clipToCollection(philippines);
+    const ndviPhilippines = medianNDVI.clipToCollection(philippines);
 
     // Visualization parameters
     // adjust the colors as you see fit, you can also add more colors
@@ -49,18 +49,18 @@ export async function GET(req: NextRequest) {
       min: -1,
       max: 1,
       palette: [
-        "c22b05",
-        "da4520", //(water/no vegetation)
-        "da9020", //(very sparse vegetation)
-        "dac420", //(minimal vegetation)
-        "acda20", //(sparse vegetation)
-        "008000", //(moderate vegetation)
-        "006400", //(dense vegetation)
-        "004d00", //(very dense vegetation)
+        "#c22b05",
+        "#da4520", //(water/no vegetation)
+        "#da9020", //(very sparse vegetation)
+        "#dac420", //(minimal vegetation)
+        "#acda20", //(sparse vegetation)
+        "#008000", //(moderate vegetation)
+        "#006400", //(dense vegetation)
+        "#004d00", //(very dense vegetation)
       ],
     };
 
-    const { urlFormat: layer1 } = await getMapId(medianNDVI, ndviParams);
+    const { urlFormat: layer1 } = await getMapId(ndviPhilippines, ndviParams);
     const imageGeom = philippines.geometry();
     const imageGeometryGeojson = await evaluate(imageGeom);
 
