@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import { bbox } from "@turf/turf";
-import lodash from "lodash";
 import { ChevronRight, PlusIcon } from "lucide-react";
 import { Map, NavigationControl } from "maplibre-gl";
 import { useEffect } from "react";
@@ -101,27 +100,6 @@ function Window(props: WindowProps) {
         </div>
 
         <GenerateInsightsButton />
-
-        <div className="bg-white/20 backdrop-blur p-4 rounded-lg flex flex-col items-center gap-2">
-          <div className="flex">
-            Today <ChevronDown />
-          </div>
-          <div className="flex">
-            <SunIcon />
-            <p className="text-6xl">32 &deg;</p>
-          </div>
-          <p>Sunny</p>
-          <p>Cebu City, Cebu</p>
-          <p>10 Oct 2019</p>
-        </div>
-
-        <div className="bg-white/20 backdrop-blur p-4 rounded-lg grid grid-rows-2 grid-cols-5 gap-2">
-          {dummyWeatherData.map((data, index) => {
-            return (
-              <WeatherAnalysisWidgetItem key={`${index}-${id}`} {...data} />
-            );
-          })}
-        </div>
 
         <div>
           <Select

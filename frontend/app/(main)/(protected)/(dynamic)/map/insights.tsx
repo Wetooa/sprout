@@ -31,27 +31,14 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
-  if (!isVisible) return null;
+  const [insights, setInsights] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const imageUrl =
     "https://www.opticslens.com/uploads/The-application-of-NDVI-01.jpg";
   const apiUrl = `http://localhost:5105/api/Insight/GenerateInsights?imageUrl=${encodeURIComponent(
-    imageUrl
+    imageUrl,
   )}`;
-
-  const [insights, setInsights] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    async function getInsights() {
-      setLoading(true);
-      const data = await fetchInsights();
-      setInsights(data);
-      setLoading(false);
-    }
-
-    getInsights();
-  }, []);
 
   async function fetchInsights() {
     try {
@@ -71,7 +58,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
         } else {
           console.error(
             "API Response does not contain 'Result'. Full Response:",
-            data
+            data,
           );
           return "Error: Result field is missing in response.";
         }
@@ -82,6 +69,19 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
       return "Request failed: " + error;
     }
   }
+
+  useEffect(() => {
+    async function getInsights() {
+      setLoading(true);
+      const data = await fetchInsights();
+      setInsights(data);
+      setLoading(false);
+    }
+
+    getInsights();
+  }, []);
+
+  if (!isVisible) return null;
 
   return (
     <div
