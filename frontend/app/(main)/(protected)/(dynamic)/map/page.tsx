@@ -1,4 +1,6 @@
 "use client";
+
+import { useEffect, useState } from "react";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Mosaic, MosaicWindow } from "react-mosaic-component";
 
@@ -10,6 +12,16 @@ import Sidebar from "./sidebar";
 
 export type ViewId = string;
 
+export type MapData = {
+  id: number;
+  ownerId: number;
+  name: string;
+  filter: string;
+  mapStyle: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type MapFilter =
   | "ndvi"
   | "soil-moisture"
@@ -17,20 +29,51 @@ export type MapFilter =
   | "precipitation";
 
 function MapPage() {
-  const ELEMENT_MAP: { [viewId: string]: JSX.Element } = {
-    a: <Window filter="soil-moisture" id={"a"} />,
-    b: <Window filter="ndvi" id={"b"} />,
-    // c: <Window filter="land-surface-temperature" id={"c"} />,
-    // d: <Window filter="precipitation" id={"d"} />,
-  };
+  const [maps, setMaps] = useState<MapData[]>([]);
+  const [elementMap, setElementMap] = useState<{
+    [viewId: string]: JSX.Element;
+  }>({});
+  const [titleMap, setTitleMap] = useState<{ [viewId: string]: string }>({});
 
-  const TITLE_MAP: { [viewId: string]: string } = {
-    a: "Left Window",
-    b: "Top Right Window",
-    c: "Bottom Right Window",
-    d: "Bottom Right Window",
-    new: "New Window",
-  };
+  useEffect(() => {
+    // Fetch data from the backend API
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:5105/api/map", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI2IiwiZW1haWwiOiJhZHJpYW5AZ21haWwuY29tIiwicm9sZSI6IlVzZXIiLCJuYmYiOjE3MzQyNDkyMTEsImV4cCI6MTczNDMzNTYxMSwiaWF0IjoxNzM0MjQ5MjExLCJpc3MiOiJTcHJvdXQiLCJhdWQiOiJTcHJvdXRVc2VycyJ9.xlC0GdDyEQFWM5z2lljUVSuT_N3RjVLvOe0Ahy-OcOY`,
+          },
+        });
+
+        console.log(response);
+
+        const data = await response.json();
+        const fetchedMaps = data.maps;
+
+        // Transform fetched maps into ELEMENT_MAP and TITLE_MAP
+        const elements: { [viewId: string]: JSX.Element } = {};
+        const titles: { [viewId: string]: string } = {};
+
+        fetchedMaps.forEach((map: any) => {
+          const viewId = `map-${map.id}`; // Create a unique viewId for each map
+          elements[viewId] = (
+            <Window mapStyle={map.mapStyle} filter={map.filter} id={viewId} />
+          );
+          titles[viewId] = map.name;
+        });
+
+        setMaps(fetchedMaps);
+        setElementMap(elements);
+        setTitleMap(titles);
+      } catch (error) {
+        console.error("Error fetching map data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <main className="flex h-full overflow-hidden">
@@ -43,24 +86,15 @@ function MapPage() {
               key={id}
               path={path}
               createNode={() => "new"}
-              title={TITLE_MAP[id]}
+              title={titleMap[id] || "New Window"}
             >
-              {ELEMENT_MAP[id]}
+              {elementMap[id] || <div>Loading...</div>}
             </MosaicWindow>
           )}
           initialValue={{
             direction: "row",
-            first: "a",
-            // second: {
-            //   direction: "column",
-            //   first: "b",
-            // first: "b",
-            // second: {
-            //   direction: "column",
-            //   first: "c",
-            //   second: "d",
-            // },
-            second: "b",
+            first: maps.length > 0 ? `map-${maps[0].id}` : "loading",
+            second: maps.length > 1 ? `map-${maps[1].id}` : "loading...",
             splitPercentage: 60,
           }}
         />
