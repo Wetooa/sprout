@@ -1,12 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import "maplibre-gl/dist/maplibre-gl.css";
 import { Mosaic, MosaicWindow } from "react-mosaic-component";
 
-import "@blueprintjs/core/lib/css/blueprint.css";
-import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-import "react-mosaic-component/react-mosaic-component.css";
 import Window from "./window";
 import Sidebar from "./sidebar";
 import { useRouter } from "next/navigation";
@@ -65,8 +61,6 @@ function MapPage() {
           },
         });
 
-        console.log(response);
-
         const data = await response.json();
         const fetchedMaps = data.maps;
 
@@ -98,21 +92,27 @@ function MapPage() {
       <Sidebar />
 
       <div className="flex-1">
-        <Mosaic<string>
-          renderTile={(id, path) => (
-            <MosaicWindow<ViewId>
-              key={id}
-              path={path}
-              createNode={() => "new"}
-              title={titleMap[id] || "New Window"}
-            >
-              {elementMap[id] || <div>Loading...</div>}
-            </MosaicWindow>
-          )}
+        <Mosaic<ViewId>
+          renderTile={(id, path) => {
+            return (
+              <MosaicWindow<ViewId>
+                key={id}
+                path={path}
+                title={titleMap[id] || "New Window"}
+                createNode={() => "new"}
+              >
+                {elementMap[id]}
+              </MosaicWindow>
+            );
+          }}
           initialValue={{
             direction: "row",
-            first: maps.length > 0 ? `map-${maps[0].id}` : "loading",
-            second: maps.length > 1 ? `map-${maps[1].id}` : "loading...",
+            first: maps.length > 0 ? `map-${maps[0].id}` : "loading-0",
+            second: {
+              direction: "column",
+              first: maps.length > 1 ? `map-${maps[1].id}` : "loading-1",
+              second: maps.length > 2 ? `map-${maps[2].id}` : "loading-2",
+            },
             splitPercentage: 60,
           }}
         />

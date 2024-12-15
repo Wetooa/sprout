@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+
 import "./globals.css";
+
+import "maplibre-gl/dist/maplibre-gl.css";
+import "react-mosaic-component/react-mosaic-component.css";
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 
 const interFont = localFont({
   src: "./fonts/Inter-VariableFont_opsz,wght.ttf",
