@@ -83,7 +83,7 @@ function MapPage() {
   }, []);
 
   return (
-    <main className="flex h-full overflow-hidden">
+    <main className="flex h-full overflow-hidden relative">
       <Sidebar />
 
       <div className="flex-1">

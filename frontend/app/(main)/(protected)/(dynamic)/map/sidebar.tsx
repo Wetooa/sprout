@@ -1,5 +1,4 @@
 import {
-  ChevronDown,
   ChevronRight,
   PanelRightClose,
   PanelRightOpen,
@@ -59,28 +58,18 @@ function Sidebar() {
 
   return (
     <div
-      className={`flex flex-col h-full transition-all relative gap-3 ${
-        isOpen ? "w-0" : "w-60 mr-4"
-      }`}
+      className={`flex flex-col h-full transition-all absolute gap-3 left-5 top-12 w-60 mr-4 z-10`}
     >
-      <Button
-        onClick={toggleSidebar}
-        className="absolute top-0 -right-10 z-10"
-        variant={"secondary"}
-      >
-        {isOpen ? <PanelRightOpen /> : <PanelRightClose />}
-      </Button>
-
       <div className="rounded-lg overflow-hidden w-full">
         <div className="bg-white flex px-4 py-2 gap-1 items-center">
           <p className="m-0 text-[#6B7280]">Province</p>
           <p className="m-0 text-[#6B7280]">|</p>
-          <button className="flex items-center font-semibold text-[#1F2937]">
-            Cebu <ChevronRight />
+          <button className="flex items-center font-semibold text-gray-800 w-full justify-between">
+            Cebu <ChevronRight className="text-gray-800" />
           </button>
         </div>
 
-        <div className="text-white flex justify-between bg-gradient-to-b from-primary/80 to-primary px-4 py-2 items-center">
+        <div className="text-white flex justify-between bg-gradient-to-br from-[#059568] to-[#065f46] px-4 py-2 items-center">
           <div className="font-medium text-[#ECFDF5]">Add field</div>
           <div className="rounded-full border-2">
             <PlusIcon className="w-3.5 h-3.5" />
@@ -90,7 +79,7 @@ function Sidebar() {
 
       <GenerateInsightsButton />
 
-      <div className="bg-white/20 backdrop-blur p-4 rounded-lg flex flex-col items-center gap-2 bg-gradient-to-br from-[#059568] to-[#065f46] text-white">
+      <div className="bg-[#0C654A]/50 backdrop-blur p-4 rounded-lg flex flex-col items-center gap-2 text-white border border-[#59A693]">
         <div className="flex w-full">
           <p className="font-semibold">{city}</p>
         </div>
@@ -107,7 +96,7 @@ function Sidebar() {
         </div>
       </div>
 
-      <div className="bg-white/20 backdrop-blur p-4 rounded-lg grid grid-rows-2 grid-cols-5 gap-2 bg-gradient-to-br from-[#059568] to-[#065f46] text-white">
+      <div className="bg-[#0C654A]/50 backdrop-blur p-4 rounded-lg grid grid-rows-2 grid-cols-5 gap-2 text-white border border-[#59A693]">
         {dummyWeatherData.map((data, index) => (
           <WeatherAnalysisWidgetItem key={index} {...data} />
         ))}
