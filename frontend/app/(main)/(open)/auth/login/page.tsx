@@ -68,9 +68,12 @@ function Login() {
 
             router.push("/map");
         } catch (error: any) {
-            setErrorMessage(
-                error.response?.data?.Message || "An error occurred during login."
-            );
+            if (error.response) {
+                console.log(error.response);
+                setErrorMessage(error.response?.data?.message);
+              } else {
+                setErrorMessage("An error occurred during login.");
+              }
         } finally {
             setIsLoading(false); // Hide loading state when done
         }
