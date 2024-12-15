@@ -21,8 +21,8 @@ function Navbar() {
   return (
     <nav className="bg-primary rounded-2xl p-4 flex justify-between w-full items-center">
       <SproutHeader
-        color="white"
-        className="text-white uppercase cursor-pointer"
+        color="#A7F3D0"
+        className="text-[#A7F3D0] uppercase cursor-pointer font-medium text-lg"
         onClick={() => {
           router.push("/");
         }}
@@ -34,6 +34,9 @@ function Navbar() {
               key={name}
               onClick={() => router.push(href)}
               variant={href === selectedPage ? "secondary" : "ghost"}
+              className={`text-lg font-medium hover:text-[#27a47d] ${
+                href === selectedPage ? "text-[#27a47d]" : ""
+              }`}
             >
               {name}
             </Button>

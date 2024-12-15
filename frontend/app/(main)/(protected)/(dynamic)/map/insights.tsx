@@ -36,17 +36,16 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
 
   const imageUrl =
     "https://www.opticslens.com/uploads/The-application-of-NDVI-01.jpg";
-  const apiUrl = `http://localhost:5105/api/Insight/GenerateInsights?imageUrl=${encodeURIComponent(
-    imageUrl
-  )}`;
+  const apiUrl = `http://localhost:5105/api/Insight/GenerateInsights`;
 
   async function fetchInsights() {
     try {
       const response = await fetch(apiUrl, {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ ImageUrl: imageUrl }),
       });
 
       if (response.ok) {

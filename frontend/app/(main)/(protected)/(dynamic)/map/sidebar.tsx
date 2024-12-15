@@ -12,6 +12,7 @@ import WeatherAnalysisWidgetItem, {
 import { Button } from "@/components/ui/button";
 import { useSidebarStore } from "@/store/sidebar";
 import GenerateInsightsButton from "./insights";
+import AddField from "./add-field";
 
 const dummyWeatherData: WeatherAnalysisWidgetItemProps[] = [
   { time: "12 AM", weather: 32 },
@@ -68,13 +69,7 @@ function Sidebar() {
             Cebu <ChevronRight className="text-gray-800" />
           </button>
         </div>
-
-        <div className="text-white flex justify-between bg-gradient-to-br from-[#059568] to-[#065f46] px-4 py-2 items-center">
-          <div className="font-medium text-[#ECFDF5]">Add field</div>
-          <div className="rounded-full border-2">
-            <PlusIcon className="w-3.5 h-3.5" />
-          </div>
-        </div>
+        <AddField />
       </div>
 
       <GenerateInsightsButton />
