@@ -9,6 +9,7 @@ import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import "react-mosaic-component/react-mosaic-component.css";
 import Window from "./window";
 import Sidebar from "./sidebar";
+import { useRouter } from "next/navigation";
 
 export type ViewId = string;
 
@@ -41,15 +42,25 @@ function MapPage() {
     [viewId: string]: JSX.Element;
   }>({});
   const [titleMap, setTitleMap] = useState<{ [viewId: string]: string }>({});
+  const router = useRouter();
 
   useEffect(() => {
     // Fetch data from the backend API
     const fetchData = async () => {
+
+      const token = localStorage.getItem("token"); // Get token from local storage
+
+        if (!token) {
+          // Handle the case when the user is not logged in (no token)
+          router.push("/auth/login");
+          return;
+        }
       try {
         const response = await fetch("http://localhost:5105/api/map", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            //Authorization: `Bearer ${token}`,
             Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI2IiwiZW1haWwiOiJhZHJpYW5AZ21haWwuY29tIiwicm9sZSI6IlVzZXIiLCJuYmYiOjE3MzQyNDkyMTEsImV4cCI6MTczNDMzNTYxMSwiaWF0IjoxNzM0MjQ5MjExLCJpc3MiOiJTcHJvdXQiLCJhdWQiOiJTcHJvdXRVc2VycyJ9.xlC0GdDyEQFWM5z2lljUVSuT_N3RjVLvOe0Ahy-OcOY`,
           },
         });
