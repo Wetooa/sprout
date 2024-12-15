@@ -7,6 +7,12 @@ import Window from "./window";
 import Sidebar from "./sidebar";
 import { useRouter } from "next/navigation";
 
+import "maplibre-gl/dist/maplibre-gl.css";
+
+import "react-mosaic-component/react-mosaic-component.css";
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+
 export type ViewId = string;
 
 export type MapData = {
