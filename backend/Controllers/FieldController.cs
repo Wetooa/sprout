@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Security.Claims;
 
 namespace backend
 {
@@ -8,9 +9,9 @@ namespace backend
     [ApiController]
     public class FieldController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AppDbContext _context;
 
-        public FieldController(ApplicationDbContext context)
+        public FieldController(AppDbContext context)
         {
             _context = context;
         }
@@ -20,7 +21,7 @@ namespace backend
         {
             var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
-            var fields = _context.Fields.Where(f => f.OwnerId == userId).ToList();
+            var fields = _context.Field.Where(f => f.OwnerId == userId).ToList();
 
             return Ok(new { Fields = fields });
         }
@@ -30,7 +31,7 @@ namespace backend
         {
             var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
-            var newFieldId = _context.Fields.Any() ? _context.Fields.Max(f => f.Id) + 1 : 1;
+            var newFieldId = _context.Field.Any() ? _context.Field.Max(f => f.Id) + 1 : 1;
 
             var newField = new Field
             {
@@ -42,7 +43,7 @@ namespace backend
                 UpdatedAt = DateTime.UtcNow,
             };
 
-            _context.Fields.Add(newField);
+            _context.Field.Add(newField);
             _context.SaveChanges();
 
             return Ok(new { Message = "Successfully created field", Field = newField });
