@@ -49,6 +49,7 @@ function AddField() {
     };
 
     setLoading(true);
+
     try {
       const response = await fetch("http://localhost:5105/api/fields", {
         method: "POST",
@@ -60,7 +61,7 @@ function AddField() {
 
       if (response.ok) {
         alert("Field added successfully!");
-        const data = response.json();
+        const data = await response.json();
         handleCloseModal();
         setProvinces([...provinces, data.field]);
       } else {
