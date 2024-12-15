@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { bbox } from "@turf/turf";
 import lodash from "lodash";
@@ -39,7 +39,6 @@ function Window(props: WindowProps) {
 
   const mapIdDiv = `map-${id}`;
   const eeLayerId = `ee-layer-${id}`;
-  const defaultMapStyle: MapStyleKeys = "basic";
 
   const [mapStyle, setMapStyle] = React.useState<MapStyleKeys>(ms);
 
