@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace backend
 {
@@ -21,7 +21,8 @@ namespace backend
             }
 
             string endpoint = "https://sproutinsights2.cognitiveservices.azure.com/";
-            string apiKey = "4jJ02ZVhT8sqqPk88zDLYQyEdDmZDVvqgNKob9K8LLuQlQan4AiTJQQJ99ALACYeBjFXJ3w3AAAFACOGaNCs";
+            string apiKey =
+                "4jJ02ZVhT8sqqPk88zDLYQyEdDmZDVvqgNKob9K8LLuQlQan4AiTJQQJ99ALACYeBjFXJ3w3AAAFACOGaNCs";
 
             try
             {
@@ -34,7 +35,11 @@ namespace backend
             }
         }
 
-        private async Task<string> AnalyzeImageAsync(string imageUrl, string endpoint, string apiKey)
+        private async Task<string> AnalyzeImageAsync(
+            string imageUrl,
+            string endpoint,
+            string apiKey
+        )
         {
             using (HttpClient client = new HttpClient())
             {
@@ -45,15 +50,19 @@ namespace backend
                 var content = new StringContent(
                     JObject.FromObject(requestBody).ToString(),
                     Encoding.UTF8,
-                    "application/json");
+                    "application/json"
+                );
 
-                string uri = "/vision/v3.2/analyze?visualFeatures=Description,Tags,Objects,Color,Categories";
+                string uri =
+                    "/vision/v3.2/analyze?visualFeatures=Description,Tags,Objects,Color,Categories";
                 HttpResponseMessage response = await client.PostAsync(uri, content);
 
                 if (!response.IsSuccessStatusCode)
                 {
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    throw new HttpRequestException($"Response status code: {response.StatusCode}, Body: {responseBody}");
+                    throw new HttpRequestException(
+                        $"Response status code: {response.StatusCode}, Body: {responseBody}"
+                    );
                 }
 
                 string responseBodySuccess = await response.Content.ReadAsStringAsync();
@@ -80,15 +89,18 @@ namespace backend
 
                 if (normalizedColors.Contains("yellow"))
                 {
-                    insight = "The field might be stressed. Consider watering the areas showing yellow.";
+                    insight =
+                        "The field might be stressed. Consider watering the areas showing yellow.";
                 }
                 if (normalizedColors.Contains("red"))
                 {
-                    insight = "The field is extremely stressed. Investigate the area and check irrigation, fertilizer, or pests.";
+                    insight =
+                        "The field is extremely stressed. Investigate the area and check irrigation, fertilizer, or pests.";
                 }
                 if (normalizedColors.Contains("green"))
                 {
-                    insight = "The field appears healthy with good vegetation coverage. Continue monitoring growth.";
+                    insight =
+                        "The field appears healthy with good vegetation coverage. Continue monitoring growth.";
                 }
             }
 
@@ -99,11 +111,13 @@ namespace backend
                     string tagName = tag.name.ToString().ToLower();
                     if (tagName.Contains("ndvi"))
                     {
-                        insight += " NDVI analysis suggests monitoring the vegetation health closely.";
+                        insight +=
+                            " NDVI analysis suggests monitoring the vegetation health closely.";
                     }
                     if (tagName.Contains("stressed vegetation"))
                     {
-                        insight += " Stressed vegetation detected. Investigate water, nutrient, or pest-related issues.";
+                        insight +=
+                            " Stressed vegetation detected. Investigate water, nutrient, or pest-related issues.";
                     }
                 }
             }
