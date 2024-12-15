@@ -20,7 +20,7 @@ namespace backend
             return Ok(user);
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete/{Id}")]
         public IActionResult Delete(int Id)
         {
             var user = _context.User.SingleOrDefault(u => u.Id == Id);

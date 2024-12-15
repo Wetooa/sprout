@@ -60,15 +60,20 @@ function Login() {
 
             setSuccessMessage(data.Message);
 
-
-            sessionStorage.setItem("token", data.Token);
+            
+            localStorage.setItem("token", data.Token);
+            localStorage.setItem("userID", data.UserId);
+            localStorage.setItem("Email", data.Email);
 
 
             router.push("/map");
         } catch (error: any) {
-            setErrorMessage(
-                error.response?.data?.Message || "An error occurred during login."
-            );
+            if (error.response) {
+                console.log(error.response);
+                setErrorMessage(error.response?.data?.message);
+              } else {
+                setErrorMessage("An error occurred during login.");
+              }
         } finally {
             setIsLoading(false); // Hide loading state when done
         }
