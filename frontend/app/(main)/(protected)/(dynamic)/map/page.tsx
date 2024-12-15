@@ -9,19 +9,25 @@ import Window from "./window";
 
 export type ViewId = string;
 
-export type MapFilter = "ndvi" | "soil-moisture";
+export type MapFilter =
+  | "ndvi"
+  | "soil-moisture"
+  | "land-surface-temperature"
+  | "precipitation";
 
 function MapPage() {
   const ELEMENT_MAP: { [viewId: string]: JSX.Element } = {
     a: <Window filter="soil-moisture" id={"a"} />,
     b: <Window filter="ndvi" id={"b"} />,
-    c: <Window filter="soil-moisture" id={"c"} />,
+    c: <Window filter="land-surface-temperature" id={"c"} />,
+    d: <Window filter="precipitation" id={"d"} />,
   };
 
   const TITLE_MAP: { [viewId: string]: string } = {
     a: "Left Window",
     b: "Top Right Window",
     c: "Bottom Right Window",
+    d: "Bottom Right Window",
     new: "New Window",
   };
 
@@ -43,7 +49,11 @@ function MapPage() {
         second: {
           direction: "column",
           first: "b",
-          second: "c",
+          second: {
+            direction: "column",
+            first: "c",
+            second: "d",
+          },
         },
         splitPercentage: 60,
       }}
