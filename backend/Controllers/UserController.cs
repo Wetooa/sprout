@@ -19,14 +19,8 @@ namespace backend
         [HttpGet("get")]
         public IActionResult GetUserAccount()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if (userId == null)
-            {
-                return Unauthorized("User ID not found in token.");
-            }
-
-            var user = _context.User.SingleOrDefault(u => u.Id == Int32.Parse(userId));
+            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var user = _context.User.SingleOrDefault(u => u.Id == userId);
 
             if (user == null)
             {
