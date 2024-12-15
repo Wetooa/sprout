@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { bbox } from "@turf/turf";
 import lodash from "lodash";
@@ -17,10 +17,7 @@ import {
 import { MapFilter } from "./page";
 import GenerateInsightsButton from "./insights";
 
-interface WindowProps {
-  id: string;
-  filter: MapFilter;
-}
+type MapStyleKeys = keyof typeof MAP_STYLES;
 
 const MAP_STYLES = {
   basic:
@@ -31,16 +28,19 @@ const MAP_STYLES = {
     "https://api.maptiler.com/maps/topo-v2/style.json?key=wp8RVzXAsc3dZj3qJlo8",
 } as const;
 
-type MapStyleKeys = keyof typeof MAP_STYLES;
+interface WindowProps {
+  id: string;
+  filter: MapFilter;
+  mapStyle: MapStyleKeys;
+}
 
 function Window(props: WindowProps) {
-  const { id, filter } = props;
+  const { id, filter, mapStyle: ms } = props;
 
   const mapIdDiv = `map-${id}`;
   const eeLayerId = `ee-layer-${id}`;
-  const defaultMapStyle: MapStyleKeys = "basic";
 
-  const [mapStyle, setMapStyle] = React.useState<MapStyleKeys>(defaultMapStyle);
+  const [mapStyle, setMapStyle] = React.useState<MapStyleKeys>(ms);
 
   useEffect(() => {
     const map = new Map({
@@ -103,7 +103,7 @@ function Window(props: WindowProps) {
 
         <div>
           <Select
-            defaultValue={defaultMapStyle}
+            defaultValue={ms}
             onValueChange={(value) => setMapStyle(value as MapStyleKeys)}
           >
             <SelectTrigger className="w-full bg-white/20 backdrop-blur">
