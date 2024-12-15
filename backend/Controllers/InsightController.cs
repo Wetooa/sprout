@@ -25,7 +25,11 @@ namespace backend
 
             try
             {
-                string analysisResult = await AnalyzeImageAsync(imageRequest.ImageUrl, endpoint, apiKey);
+                string analysisResult = await AnalyzeImageAsync(
+                    imageRequest.ImageUrl,
+                    endpoint,
+                    apiKey
+                );
                 return Ok(new { Result = analysisResult });
             }
             catch (Exception ex)
