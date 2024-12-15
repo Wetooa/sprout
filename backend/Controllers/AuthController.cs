@@ -45,7 +45,10 @@ namespace backend
                 LastName = model.LastName,
                 Email = model.Email,
                 Password = AuthUtils.HashPassword(model.Password),
+
                 SubscriptionTier = "Free", // FIX: This should be changed later
+                Role = "User", // FIX: This should be changed later
+
                 CreatedAt = DateTime.UtcNow,
             };
 

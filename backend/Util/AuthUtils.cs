@@ -20,26 +20,27 @@ namespace backend
 
         public static string GenerateJwtToken(User user)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(
-                _iconfiguration["Jwt:SecretKey"]
-                    ?? throw new InvalidOperationException("Jwt:SecretKey is not set")
-            );
-
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var claims = new List<Claim>
             {
-                Subject = new ClaimsIdentity(
-                    new[] { new Claim(ClaimTypes.Name, user.FirstName + user.LastName) }
-                ),
-                Expires = DateTime.UtcNow.AddHours(24),
-                Issuer = _iconfiguration["Jwt:Issuer"],
-                Audience = _iconfiguration["Jwt:Audience"],
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature
-                ),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("role", user.Role),
             };
 
+            var cred = new SigningCredentials(
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Application.Key)),
+                SecurityAlgorithms.HmacSha256Signature
+            );
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Issuer = Application.GetValidationParameters().ValidIssuer,
+                Audience = Application.GetValidationParameters().ValidAudience,
+                Expires = DateTime.UtcNow.AddHours(24),
+                SigningCredentials = cred,
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
@@ -67,7 +68,9 @@ namespace backend
                 ValidateIssuer = false, // Because there is no issuer in the generated token
                 ValidIssuer = "Sample",
                 ValidAudience = "Sample",
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)), // The same key as the one that generate the token
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(Application.Key)
+                ), // The same key as the one that generate the token
             };
         }
     }

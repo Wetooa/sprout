@@ -11,6 +11,7 @@ namespace backend
         public required string Password { get; set; }
 
         public required string SubscriptionTier { get; set; }
+        public required string Role { get; set; }
 
         public required DateTime CreatedAt { get; set; }
     }
