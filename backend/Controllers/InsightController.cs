@@ -1,10 +1,8 @@
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend
 {
-
-  [Route("api/[controller]")]
-  [ApiController]
-  public class InsightController : ControllerBase
-  {
-  }
+    [Route("api/[controller]")]
+    [ApiController]
+    public class InsightController : ControllerBase { }
 }

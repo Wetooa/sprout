@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace backend
 {
-
     public class RegisterModel
     {
         public required string FirstName { get; set; }
@@ -18,7 +16,6 @@ namespace backend
         public required string Email { get; set; }
         public required string Password { get; set; }
     }
-
 
     [Route("api/[controller]")]
     [ApiController]
@@ -72,8 +69,5 @@ namespace backend
 
             return Ok(new { Email = model.Email, Token = token });
         }
-
     }
 }
-
-

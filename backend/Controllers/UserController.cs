@@ -2,12 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace backend
 {
-
-  [Route("api/[controller]")]
-  [ApiController]
-  public class UserController : ControllerBase
-  {
-
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
+    {
         private readonly AppDbContext _context;
         private readonly IConfiguration _iconfiguration;
 
@@ -39,7 +37,6 @@ namespace backend
             return Ok("User updated");
         }
 
-
         [HttpDelete("delete")]
         public IActionResult Delete([FromBody] LoginModel model)
         {
@@ -55,5 +52,5 @@ namespace backend
 
             return Ok("User deleted");
         }
-  }
+    }
 }
