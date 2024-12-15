@@ -37,9 +37,9 @@ function Login() {
   }
 
   return (
-    <div className="w-full h-full flex gap-10 bg-[url('/bg/sign-in.png')] bg-cover bg-no-repeat p-4">
-      <section className="w-full h-full flex items-center justify-center border-4 border-white rounded-2xl flex-[6] p-[10%]">
-        <div className="w-full my-auto bg-white p-12 rounded-2xl bg-white/80 backdrop-blur max-w-4xl flex flex-col space-y-4">
+     <div className="w-full h-full flex gap-10 bg-[url('/bg/sign-in.png')] bg-cover bg-no-repeat p-4 items-center justify-center">
+        <section className="w-[848px] h-[934px] flex items-center justify-center border-4 border-white rounded-2xl p-[5%]">
+        <div className="w-[520px] my-auto bg-white p-12 rounded-2xl bg-white/80 backdrop-blur max-w-4xl flex flex-col space-y-4">
           <h2 className="font-bold text-center text-3xl">Sign in to Sprout</h2>
 
           <Form {...form}>
@@ -119,7 +119,7 @@ function Login() {
         </div>
       </section>
 
-      <aside className="bg-primary/90 text-secondary backdrop-blur flex-[5] p-10 rounded-2xl flex flex-col">
+        <aside className="bg-primary/90 text-secondary backdrop-blur w-[600px] h-[934px] p-10 rounded-2xl flex flex-col">
         <SproutHeader />
 
         <div className="flex-1 flex flex-col justify-center gap-4">
@@ -132,7 +132,7 @@ function Login() {
             in Philippine agriculture.
           </p>
           <Button className="bg-green-500 w-fit font-bold text-2xl p-8 rounded-2xl">
-            Sign up
+            Sign Up
           </Button>
         </div>
 

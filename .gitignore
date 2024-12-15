@@ -48,3 +48,5 @@ Thumbs.db
 
 # Miscellaneous
 *.lock
+/.vs
+/frontend/package-lock.json

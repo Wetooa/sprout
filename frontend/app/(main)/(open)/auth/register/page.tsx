@@ -53,8 +53,8 @@ function Register() {
   }
 
   return (
-    <div className="w-full h-full flex gap-10 bg-[url('/bg/sign-up.png')] bg-cover bg-no-repeat">
-      <aside className="bg-primary/90 text-secondary backdrop-blur flex-[5] p-10 rounded-2xl flex flex-col">
+      <div className="w-full h-full flex gap-10 bg-[url('/bg/sign-up.png')] bg-cover bg-no-repeat items-center justify-center">
+        <aside className="bg-primary/90 text-secondary backdrop-blur w-[600px] h-[934px] p-10 rounded-2xl flex flex-col">
         <SproutHeader />
         <div className="flex-1 flex flex-col justify-center gap-4">
           <h3 className="font-bold text-5xl">
@@ -66,15 +66,15 @@ function Register() {
             Philippine agriculture.
           </p>
           <Button className="bg-green-500 w-fit font-bold text-2xl p-8 rounded-2xl">
-            Sign up
+            Sign In
           </Button>
         </div>
 
         <AsideFooter />
       </aside>
 
-      <section className="w-full h-full flex items-center justify-center border-4 border-white rounded-2xl flex-[6] p-[10%]">
-        <div className="w-full my-auto bg-white p-12 rounded-2xl bg-white/80 backdrop-blur flex flex-col space-y-4">
+      <section className="w-[848px] h-[934px] flex items-center justify-center border-4 border-white rounded-2xl p-[5%]">
+        <div className="w-[520px] my-auto bg-white p-10 rounded-2xl bg-white/80 backdrop-blur flex flex-col space-y-4">
           <h2 className="font-bold text-center text-3xl">Sign in to Sprout</h2>
 
           <Form {...form}>
@@ -82,40 +82,40 @@ function Register() {
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-4 w-full"
             >
-              <div className="flex gap-2 w-full">
-                <FormField
-                  control={form.control}
-                  name="firstname"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <IconInput
-                          icon={<MailIcon />}
-                          placeholder="First Name"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="lastname"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <IconInput
-                          icon={<MailIcon />}
-                          placeholder="Last Name"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+                <div className="flex justify-between w-full gap-4">
+                    <FormField
+                        control={form.control}
+                        name="firstname"
+                        render={({ field }) => (
+                            <FormItem className="flex-1">
+                                <FormControl>
+                                    <IconInput
+                                        icon={<MailIcon />}
+                                        placeholder="First Name"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="lastname"
+                        render={({ field }) => (
+                            <FormItem className="flex-1">
+                                <FormControl>
+                                    <IconInput
+                                        icon={<MailIcon />}
+                                        placeholder="Last Name"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
 
               <FormField
                 control={form.control}
@@ -175,7 +175,7 @@ function Register() {
               </Button>
 
               <Button className="w-full" type="submit">
-                Sign in
+                Sign Up
               </Button>
             </form>
           </Form>
