@@ -1,15 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import "maplibre-gl/dist/maplibre-gl.css";
 import { Mosaic, MosaicWindow } from "react-mosaic-component";
 
-import "@blueprintjs/core/lib/css/blueprint.css";
-import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-import "react-mosaic-component/react-mosaic-component.css";
 import Window from "./window";
 import Sidebar from "./sidebar";
 import { useRouter } from "next/navigation";
+
+import "maplibre-gl/dist/maplibre-gl.css";
+
+import "react-mosaic-component/react-mosaic-component.css";
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+
+import "maplibre-gl/dist/maplibre-gl.css";
+
+import "react-mosaic-component/react-mosaic-component.css";
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 
 export type ViewId = string;
 
@@ -47,14 +55,13 @@ function MapPage() {
   useEffect(() => {
     // Fetch data from the backend API
     const fetchData = async () => {
-
       const token = localStorage.getItem("token"); // Get token from local storage
 
-        if (!token) {
-          // Handle the case when the user is not logged in (no token)
-          router.push("/auth/login");
-          return;
-        }
+      if (!token) {
+        // Handle the case when the user is not logged in (no token)
+        router.push("/auth/login");
+        return;
+      }
       try {
         const response = await fetch("http://localhost:5105/api/map", {
           method: "GET",
@@ -64,8 +71,6 @@ function MapPage() {
             Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI2IiwiZW1haWwiOiJhZHJpYW5AZ21haWwuY29tIiwicm9sZSI6IlVzZXIiLCJuYmYiOjE3MzQyNDkyMTEsImV4cCI6MTczNDMzNTYxMSwiaWF0IjoxNzM0MjQ5MjExLCJpc3MiOiJTcHJvdXQiLCJhdWQiOiJTcHJvdXRVc2VycyJ9.xlC0GdDyEQFWM5z2lljUVSuT_N3RjVLvOe0Ahy-OcOY`,
           },
         });
-
-        console.log(response);
 
         const data = await response.json();
         const fetchedMaps = data.maps;
@@ -98,21 +103,27 @@ function MapPage() {
       <Sidebar />
 
       <div className="flex-1">
-        <Mosaic<string>
-          renderTile={(id, path) => (
-            <MosaicWindow<ViewId>
-              key={id}
-              path={path}
-              createNode={() => "new"}
-              title={titleMap[id] || "New Window"}
-            >
-              {elementMap[id] || <div>Loading...</div>}
-            </MosaicWindow>
-          )}
+        <Mosaic<ViewId>
+          renderTile={(id, path) => {
+            return (
+              <MosaicWindow<ViewId>
+                key={id}
+                path={path}
+                title={titleMap[id] || "New Window"}
+                createNode={() => "new"}
+              >
+                {elementMap[id]}
+              </MosaicWindow>
+            );
+          }}
           initialValue={{
             direction: "row",
-            first: maps.length > 0 ? `map-${maps[0].id}` : "loading",
-            second: maps.length > 1 ? `map-${maps[1].id}` : "loading...",
+            first: maps.length > 0 ? `map-${maps[0].id}` : "loading-0",
+            second: {
+              direction: "column",
+              first: maps.length > 1 ? `map-${maps[1].id}` : "loading-1",
+              second: maps.length > 2 ? `map-${maps[2].id}` : "loading-2",
+            },
             splitPercentage: 60,
           }}
         />

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { bbox } from "@turf/turf";
 import lodash from "lodash";
-import { ChevronRight, PlusIcon } from "lucide-react";
 import { Map, NavigationControl } from "maplibre-gl";
 import {
   Select,

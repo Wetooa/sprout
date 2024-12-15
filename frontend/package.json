@@ -24,6 +24,8 @@
     "axios": "^1.7.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dockview-core": "^2.0.0",
+    "dockview-react": "^2.0.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.462.0",
     "maplibre-gl": "^4.7.1",

@@ -1,5 +1,13 @@
 import { useState } from "react";
 import { PlusIcon } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import regions from "../../../../../data/regions.json";
 
 function AddField() {
@@ -17,14 +25,14 @@ function AddField() {
     setProvinces([]);
   };
 
-  const handleRegionChange = (e) => {
-    const region = e.target.value;
+  const handleRegionChange = (value) => {
+    const region = value;
     setSelectedRegion(region);
     setProvinces(regions[region] || []);
   };
 
-  const handleProvinceChange = (e) => {
-    setSelectedProvince(e.target.value);
+  const handleProvinceChange = (value) => {
+    setSelectedProvince(value);
   };
 
   const handleAddField = async () => {
@@ -41,8 +49,9 @@ function AddField() {
     };
 
     setLoading(true);
+
     try {
-      const response = await fetch("http://localhost:5000/api/fields", {
+      const response = await fetch("http://localhost:5105/api/fields", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +61,9 @@ function AddField() {
 
       if (response.ok) {
         alert("Field added successfully!");
+        const data = await response.json();
         handleCloseModal();
+        setProvinces([...provinces, data.field]);
       } else {
         alert("Failed to add field.");
       }
@@ -91,40 +102,43 @@ function AddField() {
             <div className="flex flex-col gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Region</label>
-                <select
-                  value={selectedRegion}
-                  onChange={handleRegionChange}
-                  className="w-full border border-gray-300 p-2 rounded-lg"
+                <Select
+                  defaultValue={selectedRegion}
+                  onValueChange={handleRegionChange}
                 >
-                  <option value="">Select a region</option>
-                  {Object.keys(regions).map((region) => (
-                    <option key={region} value={region}>
-                      {region}
-                    </option>
-                  ))}
-                </select>
+                  <SelectTrigger className="w-full border border-gray-300 p-2 rounded-lg">
+                    <SelectValue placeholder="Selected Region" />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    {Object.keys(regions).map((region) => (
+                      <SelectItem key={region} value={region}>
+                        {region}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">
                   Province
                 </label>
-                <select
+                <Select
                   value={selectedProvince}
-                  onChange={handleProvinceChange}
+                  onValueChange={handleProvinceChange}
                   disabled={!selectedRegion}
-                  className="w-full border border-gray-300 p-2 rounded-lg"
                 >
-                  <option value="">
-                    {selectedRegion
-                      ? "Select a province"
-                      : "Select a region first"}
-                  </option>
-                  {provinces.map((province) => (
-                    <option key={province} value={province}>
-                      {province}
-                    </option>
-                  ))}
-                </select>
+                  <SelectTrigger className="w-full border border-gray-300 p-2 rounded-lg">
+                    <SelectValue placeholder="Selected Province" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {provinces.map((province) => (
+                      <SelectItem key={province} value={province}>
+                        {province}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
             <button
