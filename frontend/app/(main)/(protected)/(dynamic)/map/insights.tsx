@@ -19,7 +19,7 @@ function GenerateInsightsButton() {
         className="transition-all flex items-center rounded-lg px-4 py-3 w-full bg-gradient-to-br from-emerald-600 to-emerald-800 hover:from-emerald-500 hover:to-emerald-500 cursor-pointer font-medium text-emerald-50 relative"
         onClick={handleClick}
       >
-        <Toto className="absolute right-2" height="54" />
+        <Toto className="absolute right-2" height="50" />
         Generate Insights
       </button>
 
