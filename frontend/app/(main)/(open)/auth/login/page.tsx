@@ -19,7 +19,7 @@ import AsideFooter from "../aside-footer";
 import SproutHeader from "@/components/sprout-header";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -63,6 +63,8 @@ function Login() {
       localStorage.setItem("token", data.Token);
       localStorage.setItem("userID", data.UserId);
       localStorage.setItem("Email", data.Email);
+      localStorage.setItem("FirstName", data.FirstName);
+      localStorage.setItem("LastName", data.LastName);
 
       router.push("/map");
     } catch (error: any) {

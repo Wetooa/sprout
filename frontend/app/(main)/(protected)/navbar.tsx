@@ -1,3 +1,5 @@
+//Navbar
+
 "use client";
 
 import SproutHeader from "@/components/sprout-header";
@@ -18,13 +20,16 @@ function Navbar() {
     ["Services", "/services"],
     ["Pricing", "/pricing"],
     ["About us", "/about-us"],
+    ["Profile", "/profile"]
   ];
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userID");
     localStorage.removeItem("Email");
-    setIsLoggedIn(false);
+    localStorage.removeItem("FirstName");
+    localStorage.removeItem("LastName");
+    setIsLoggedIn(false);  
     router.push("/auth/login");
   };
 
@@ -37,9 +42,10 @@ function Navbar() {
     }
   };
 
+  
   useEffect(() => {
     checkLoginStatus();
-  }, []);
+  }, []); 
 
   // Filter out "Map" link if not logged in
   const filteredLinks = isLoggedIn
@@ -47,10 +53,10 @@ function Navbar() {
     : links.filter(([name]) => name !== "Map");
 
   return (
-    <nav className="bg-primary rounded-xl px-6 py-4 flex justify-between w-full items-center">
+    <nav className="bg-primary rounded-2xl p-4 flex justify-between w-full items-center">
       <SproutHeader
         color="#A7F3D0"
-        className="text-emerald-200 uppercase cursor-pointer font-medium text-lg"
+        className="text-[#A7F3D0] uppercase cursor-pointer font-medium text-lg"
         onClick={() => {
           router.push("/");
         }}
@@ -62,8 +68,8 @@ function Navbar() {
               key={name}
               onClick={() => router.push(href)}
               variant={href === selectedPage ? "secondary" : "ghost"}
-              className={`text-lg font-medium hover:text-emerald-600 ${
-                href === selectedPage ? "text-emerald-600" : ""
+              className={`text-lg font-medium hover:text-[#27a47d] ${
+                href === selectedPage ? "text-[#27a47d]" : ""
               }`}
             >
               {name}
@@ -72,16 +78,18 @@ function Navbar() {
         })}
       </div>
 
-      <div className="rounded-lg overflow-hidden flex items-center border-2 border-emerald-600 h-10">
+      <div className="rounded-lg overflow-hidden flex items-center border-2 border-green-500 h-10">
         {isLoggedIn ? (
           <>
             <button
-              className="text-white py-2 px-6 bg-emerald-600"
-              onClick={handleLogout}
+              className="text-white py-2 px-6 bg-green-500"
+              onClick={handleLogout} 
             >
               Log out
             </button>
-            <div className="relative h-full aspect-square justify-center flex items-center">
+            <div className="relative h-full aspect-square justify-center flex items-center cursor-pointer"
+            onClick={() => router.push("/profile")}
+            >
               <Image
                 src={"/members/simon.jpg"}
                 alt="simon"
@@ -92,8 +100,8 @@ function Navbar() {
           </>
         ) : (
           <button
-            className="text-white py-2 px-6 bg-emerald-600"
-            onClick={() => router.push("/auth/register")}
+            className="text-white py-2 px-6 bg-green-500"
+            onClick={() => router.push("/auth/register")} 
           >
             Sign up
           </button>

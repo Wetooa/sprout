@@ -1,3 +1,4 @@
+//authcontorller.cs
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend
@@ -46,7 +47,7 @@ namespace backend
                 Email = model.Email,
                 Password = AuthUtils.HashPassword(model.Password),
                 SubscriptionTier = "Free", // FIX: This should be changed later
-                Role = "User", // FIX: This should be changed later
+                Role = "User",             // FIX: This should be changed later
                 CreatedAt = DateTime.UtcNow,
             };
 
@@ -55,9 +56,10 @@ namespace backend
             _context.SaveChanges();
 
             // Return success response with additional metadata if needed
-            return Ok(
-                new Dictionary<string, string> { { "Message", "Account Created Successfully." } }
-            );
+            return Ok(new Dictionary<string, string>
+            {
+                { "Message", "Account Created Successfully." }
+            });
         }
 
         [HttpPost("login")]
@@ -75,15 +77,15 @@ namespace backend
             var token = AuthUtils.GenerateJwtToken(user);
 
             // Return token and user metadata
-            return Ok(
-                new Dictionary<string, string>
-                {
-                    { "Message", "Login Successful." },
-                    { "Token", token },
-                    { "UserId", user.Id.ToString() },
-                    { "Email", user.Email },
-                }
-            );
+            return Ok(new Dictionary<string, string>
+            {
+                { "Message", "Login Successful." },
+                { "Token", token },
+                { "UserId", user.Id.ToString() },
+                { "Email", user.Email },
+                { "FirstName", user.FirstName },
+                { "LastName", user.LastName }
+            });
         }
     }
 }
