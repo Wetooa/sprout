@@ -12,6 +12,7 @@ const formSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Invalid email format"),
+  aboutMe: z.string().optional(),
 });
 
 function Profile() {
@@ -19,6 +20,7 @@ function Profile() {
     firstName: "",
     lastName: "",
     email: "",
+    aboutMe: "",
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,9 +36,10 @@ function Profile() {
     const firstName = localStorage.getItem("FirstName") || "";
     const lastName = localStorage.getItem("LastName") || "";
     const email = localStorage.getItem("Email") || "";
+    const aboutMe = localStorage.getItem("AboutMe") || "Passionate about leveraging modern technology to enhance agricultural productivity and sustainability.";
 
-    setUser({ firstName, lastName, email });
-    form.reset({ firstName, lastName, email }); // Set form defaults
+    setUser({ firstName, lastName, email, aboutMe });
+    form.reset({ firstName, lastName, email, aboutMe }); // Set form defaults
   }, [form]);
 
   const handleEditProfile = () => {
@@ -60,6 +63,7 @@ function Profile() {
         FirstName: values.firstName,
         LastName: values.lastName,
         Email: values.email,
+        AboutMe: values.aboutMe || "", // Ensure `aboutMe` is always a string
       };
   
       const response = await axios.post(
@@ -76,8 +80,14 @@ function Profile() {
       localStorage.setItem("FirstName", values.firstName);
       localStorage.setItem("LastName", values.lastName);
       localStorage.setItem("Email", values.email);
+      localStorage.setItem("AboutMe", values.aboutMe || ""); // Ensure empty string if undefined
   
-      setUser(values); // Update the user in state
+      setUser({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        aboutMe: values.aboutMe || "", // Ensure empty string if undefined
+      });
       setSuccessMessage("Profile updated successfully!");
       setIsModalOpen(false);
     } catch (error: any) {
@@ -114,10 +124,7 @@ function Profile() {
         {/* Profile Details Section */}
         <div className="flex flex-col gap-4 bg-white p-8 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold text-primary">About Me</h2>
-          <p className="text-lg">
-            Passionate about leveraging modern technology to enhance agricultural
-            productivity and sustainability.
-          </p>
+          <p className="text-lg">{user.aboutMe}</p>
         </div>
 
         {/* Actions */}
@@ -167,6 +174,18 @@ function Profile() {
                 {form.formState.errors.email && (
                   <p className="text-red-500">
                     {form.formState.errors.email.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label>About Me</label>
+                <textarea
+                  {...form.register("aboutMe")}
+                  className="w-full border rounded p-2 h-24"
+                />
+                {form.formState.errors.aboutMe && (
+                  <p className="text-red-500">
+                    {form.formState.errors.aboutMe.message}
                   </p>
                 )}
               </div>
