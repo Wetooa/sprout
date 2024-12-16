@@ -133,13 +133,13 @@ function AboutUs() {
       </div>
 
       <div className="z-0 flex pt-32 flex-col gap-4 max-w-[1200px] p-12 mx-auto">
-        <section className=" bg-white/60 backdrop-blur p-8 rounded-2xl text-center space-y-4 h-fit">
+        <section className=" bg-white/60 backdrop-blur p-8 rounded-xl text-center space-y-4 h-fit">
           <h2 className="text-5xl text-primary font-bold">Our Company</h2>
           {companyNarrative.map((narrative) => {
             return (
               <div
                 key={narrative.title}
-                className="bg-white/60 backdrop-blur p-8 rounded-2xl shadow-lg"
+                className="bg-white/60 backdrop-blur p-8 rounded-xl shadow-lg"
               >
                 <h3 className="font-bold">{narrative.title}</h3>
                 <p className="text-primary">{narrative.content}</p>
@@ -148,7 +148,7 @@ function AboutUs() {
           })}
         </section>
 
-        <section className=" bg-white/60 backdrop-blur p-8 rounded-2xl text-center space-y-4 h-fit">
+        <section className=" bg-white/60 backdrop-blur p-8 rounded-xl text-center space-y-4 h-fit">
           <h2 className="text-5xl text-primary font-bold">Meet the Team</h2>
           <div className="grid grid-rows-2 grid-cols-3 gap-4">
             {members.map((member) => (
@@ -181,7 +181,7 @@ function MemberContainer(props: MemberContainerProps) {
   const { name, role, content, image, alt, socials } = props;
 
   return (
-    <div className="flex flex-col gap-4 bg-white/80 p-8 rounded-2xl shadow-black h-full">
+    <div className="flex flex-col gap-4 bg-white/80 p-8 rounded-xl shadow-black h-full">
       <Image
         className="w-full rounded-full aspect-square border-4 border-primary"
         src={`/members/${image}`}

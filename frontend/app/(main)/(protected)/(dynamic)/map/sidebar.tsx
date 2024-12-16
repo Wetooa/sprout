@@ -63,8 +63,8 @@ function Sidebar() {
     >
       <div className="rounded-lg overflow-hidden w-full">
         <div className="bg-white flex px-4 py-2 gap-2 items-center">
-          <p className="m-0 text-[#6B7280]">Province</p>
-          <p className="m-0 text-[#6B7280]">|</p>
+          <p className="m-0 text-gray-500">Province</p>
+          <p className="m-0 text-gray-500">|</p>
           <Province />
         </div>
         <AddField />
@@ -72,7 +72,7 @@ function Sidebar() {
 
       <GenerateInsightsButton />
 
-      <div className="bg-[#0C654A]/50 backdrop-blur p-4 rounded-lg flex flex-col items-center gap-2 text-white border border-[#59A693]">
+      <div className="bg-emerald-800/50 backdrop-blur p-4 rounded-lg flex flex-col items-center gap-2 text-white border border-teal-600">
         <div className="flex w-full">
           <p className="font-semibold">{city}</p>
         </div>
@@ -89,7 +89,7 @@ function Sidebar() {
         </div>
       </div>
 
-      <div className="bg-[#0C654A]/50 backdrop-blur p-4 rounded-lg grid grid-rows-2 grid-cols-5 gap-2 text-white border border-[#59A693]">
+      <div className="bg-emerald-800/50 backdrop-blur p-4 rounded-lg grid grid-rows-2 grid-cols-5 gap-2 text-white border border-teal-600">
         {dummyWeatherData.map((data, index) => (
           <WeatherAnalysisWidgetItem key={index} {...data} />
         ))}

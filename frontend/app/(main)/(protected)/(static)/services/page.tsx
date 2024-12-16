@@ -9,16 +9,16 @@ function Services() {
       </div>
 
       <div className="z-0 flex pt-32 flex-col gap-4 max-w-[1200px] p-12 mx-auto">
-        <section className=" bg-white/60 backdrop-blur p-8 rounded-2xl space-y-4 h-fit">
+        <section className=" bg-white/60 backdrop-blur p-8 rounded-xl space-y-4 h-fit">
           <h2 className="text-5xl text-primary font-bold">Weather Analysis</h2>
-          <div className="bg-white/60 backdrop-blur p-8 rounded-2xl shadow-lg">
+          <div className="bg-white/60 backdrop-blur p-8 rounded-xl shadow-lg">
             <h3 className="font-bold">Overview</h3>
             <p className="text-primary">
               Offer real-time and historical weather data to help farmers make
               timely decisions.
             </p>
           </div>
-          <div className="bg-white/60 backdrop-blur p-8 rounded-2xl shadow-lg">
+          <div className="bg-white/60 backdrop-blur p-8 rounded-xl shadow-lg">
             <h3 className="font-bold">Benefits</h3>
             <ul className="text-primary list-disc list-inside">
               <li>
@@ -37,11 +37,11 @@ function Services() {
           </div>
         </section>
 
-        <section className=" bg-white/60 backdrop-blur p-8 rounded-2xl space-y-4 h-fit">
+        <section className=" bg-white/60 backdrop-blur p-8 rounded-xl space-y-4 h-fit">
           <h2 className="text-5xl text-primary font-bold">
             Climate-Resilient Agriculture
           </h2>
-          <div className="bg-white/60 backdrop-blur p-8 rounded-2xl shadow-lg">
+          <div className="bg-white/60 backdrop-blur p-8 rounded-xl shadow-lg">
             <h3 className="font-bold">Overview</h3>
             <p className="text-primary">
               Tools to help farmers adapt to changing climates and optimize
@@ -49,7 +49,7 @@ function Services() {
             </p>
           </div>
 
-          <div className="bg-white/60 backdrop-blur p-8 rounded-2xl shadow-lg">
+          <div className="bg-white/60 backdrop-blur p-8 rounded-xl shadow-lg">
             <h3 className="font-bold">Benefits</h3>
             <ul className="text-primary list-disc list-inside">
               <li>

@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${interFont.variable} antialiased min-w-screen min-h-screen h-screen w-screen`}
+        className={`${interFont.variable} antialiased min-w-screen min-h-screen h-screen w-screen text-gray-800`}
       >
         {children}
       </body>

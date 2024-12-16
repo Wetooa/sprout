@@ -90,7 +90,7 @@ function Window(props: WindowProps) {
           defaultValue={mapFilter}
           onValueChange={(value) => setMapFilter(value as MapFilter)}
         >
-          <SelectTrigger className="w-full bg-[#0C654A]/20 backdrop-blur text-white">
+          <SelectTrigger className="w-full bg-emerald-800/20 backdrop-blur text-white">
             <SelectValue placeholder="Map Style" />
           </SelectTrigger>
           <SelectContent>
@@ -106,7 +106,7 @@ function Window(props: WindowProps) {
           defaultValue={ms}
           onValueChange={(value) => setMapStyle(value as MapStyleKeys)}
         >
-          <SelectTrigger className="w-full bg-[#0C654A]/20 backdrop-blur text-white">
+          <SelectTrigger className="w-full bg-emerald-800/20 backdrop-blur text-white">
             <SelectValue placeholder="Map Style" />
           </SelectTrigger>
           <SelectContent>

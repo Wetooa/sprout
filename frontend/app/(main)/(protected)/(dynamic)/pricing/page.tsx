@@ -41,7 +41,7 @@ function SubscriptionModels(props: SubscriptionModelsProps) {
 
 function Pricing() {
   return (
-    <div className="bg-[url('/bg/main.svg')] bg-cover bg-no-repeat overflow-y-scroll  w-full h-full p-16 flex flex-col justify-center rounded-2xl space-y-12">
+    <div className="bg-[url('/bg/main.svg')] bg-cover bg-no-repeat overflow-y-scroll  w-full h-full p-16 flex flex-col justify-center rounded-xl space-y-12">
       <header className="mx-auto text-primary text-center">
         <div className="max-w-5xl flex flex-col gap-6 items-center">
           <div className={"flex text-primary gap-2 h-10 items-center "}>
@@ -66,7 +66,7 @@ function Pricing() {
             1-month trial for ₱0 • Then ₱50/week • Cancel anytime
           </p>
           <p className="text-lg">Or save money with other plans</p>
-          <Button className="text-xl p-8 rounded-2xl">
+          <Button className="text-xl p-8 rounded-xl">
             <b>Try 1 month for</b> ₱0
           </Button>
         </div>

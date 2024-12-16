@@ -8,7 +8,7 @@ export default function ProtectedLayout({
   return (
     <div className="relative w-full h-full space-y-4 flex flex-col p-4">
       <Navbar />
-      <div className="rounded-2xl flex-1">{children}</div>
+      <div className="rounded-xl flex-1">{children}</div>
     </div>
   );
 }

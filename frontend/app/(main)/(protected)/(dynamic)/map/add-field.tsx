@@ -78,10 +78,10 @@ function AddField() {
   return (
     <>
       <div
-        className="transition-all text-white flex justify-between bg-gradient-to-br from-[#059568] to-[#065f46] hover:from-[#216958] hover:to-[#216958] px-4 py-2 items-center cursor-pointer"
+        className="transition-all text-white flex justify-between bg-gradient-to-br from-emerald-600 to-emerald-800 hover:from-emerald-500 hover:to-emerald-500 px-4 py-2 items-center cursor-pointer"
         onClick={handleOpenModal}
       >
-        <div className="font-medium text-[#ECFDF5]">Add field</div>
+        <div className="font-medium text-emerald-50">Add field</div>
         <div className="rounded-full border-2">
           <PlusIcon className="w-3.5 h-3.5" />
         </div>
@@ -93,7 +93,7 @@ function AddField() {
           onClick={handleCloseModal}
         >
           <div
-            className="bg-white p-8 rounded-xl shadow-lg relative border-[6px] border-[#2165f6] max-w-[400px]"
+            className="bg-white p-8 rounded-xl shadow-lg relative border-[6px] border-blue-600 max-w-[400px]"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-xl font-semibold mb-4">
@@ -147,7 +147,7 @@ function AddField() {
               className={`mt-6 py-2 px-4 text-white rounded-lg ${
                 loading
                   ? "bg-gray-500 cursor-not-allowed"
-                  : "bg-[#2165f6] hover:bg-[#1a4bcc]"
+                  : "bg-blue-600 hover:bg-blue-800"
               }`}
             >
               {loading ? "Adding..." : "Add field"}
